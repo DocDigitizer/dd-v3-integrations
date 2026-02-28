@@ -19,4 +19,3 @@ thiserror = "2"
 [dev-dependencies]
 tokio = { version = "1", features = ["full", "test-util"] }
 serde_yaml = "0.9"
-wiremock = "0.6"
