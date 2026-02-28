@@ -72,7 +72,7 @@ public static class ErrorMapping
         { 504, (m, s, t, msgs, tmrs) => new TimeoutException(m, s, t, msgs, tmrs) },
     };
 
-    internal static readonly HashSet<int> RetryableStatusCodes = new() { 429, 500, 503, 504 };
+    public static readonly HashSet<int> RetryableStatusCodes = new() { 429, 500, 503, 504 };
 
     public static DocDigitizerException RaiseForStatus(int statusCode, string? traceId = null, IReadOnlyList<string>? messages = null, IDictionary<string, object>? timers = null)
     {
