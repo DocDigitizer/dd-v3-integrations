@@ -1,0 +1,61 @@
+name: Publish MCP Server to npm
+
+on:
+  push:
+    tags:
+      - 'mcp-v*'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: integrations/mcp-server
+        run: npm ci
+
+      - name: Build
+        working-directory: integrations/mcp-server
+        run: npm run build
+
+      - name: Run tests
+        working-directory: integrations/mcp-server
+        run: npm test
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: npm
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        working-directory: integrations/mcp-server
+        run: npm ci
+
+      - name: Build
+        working-directory: integrations/mcp-server
+        run: npm run build
+
+      - name: Publish to npm
+        working-directory: integrations/mcp-server
+        run: npm publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
