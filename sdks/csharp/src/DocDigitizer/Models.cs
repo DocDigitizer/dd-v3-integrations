@@ -32,7 +32,7 @@ public record ProcessingResponse(
     public IReadOnlyList<Extraction> Extractions => Output?.Extractions ?? Array.Empty<Extraction>();
 }
 
-internal static class ResponseParser
+public static class ResponseParser
 {
     /// <summary>
     /// Dual-case getter: tries camelCase first, then PascalCase fallback.

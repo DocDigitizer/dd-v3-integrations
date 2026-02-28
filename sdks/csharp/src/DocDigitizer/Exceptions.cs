@@ -60,7 +60,7 @@ public class TimeoutException : DocDigitizerException
         : base(message, statusCode, traceId, messages, timers) { }
 }
 
-internal static class ErrorMapping
+public static class ErrorMapping
 {
     private static readonly Dictionary<int, Func<string, int?, string?, IReadOnlyList<string>?, IDictionary<string, object>?, DocDigitizerException>> Map = new()
     {
