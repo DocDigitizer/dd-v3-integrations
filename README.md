@@ -8,7 +8,7 @@ DocDigitizer provides intelligent document processing — upload PDFs and get st
 
 | SDK | Language | Package | Status |
 |-----|----------|---------|--------|
-| [Python SDK](./sdks/python) | Python 3.8+ | `docdigitizer` | Planned |
+| [Python SDK](./sdks/python) | Python 3.8+ | `docdigitizer` | **v0.1.0** |
 | [Node.js SDK](./sdks/node) | TypeScript/JavaScript | `@docdigitizer/sdk` | Planned |
 | [Go SDK](./sdks/go) | Go 1.21+ | `github.com/DocDigitizer/dd-v3-integrations/sdks/go` | Planned |
 | [C# SDK](./sdks/csharp) | .NET 6+ | `DocDigitizer.SDK` | Planned |
@@ -48,7 +48,7 @@ dd = DocDigitizer(api_key="your-api-key")
 
 result = dd.process("invoice.pdf")
 print(result.extractions[0].document_type)  # "Invoice"
-print(result.extractions[0].extraction)      # structured data
+print(result.extractions[0].data)              # structured data
 ```
 
 ### Node.js
@@ -83,34 +83,45 @@ curl -X POST https://apix.docdigitizer.com/sync \
 
 See [full API reference](./docs/api-reference.md) for complete documentation.
 
-## Repository Structure
+## Architecture
 
 ```
 dd-v3-integrations/
+├── openapi/                    # SOURCE OF TRUTH
+│   └── sync.openapi.yaml      # Canonical OpenAPI 3.1 spec (from sync2025)
+├── sdk-config.yaml             # Global API version & base URLs
 ├── sdks/
-│   ├── python/          # Python SDK
-│   ├── node/            # Node.js/TypeScript SDK
-│   ├── go/              # Go SDK
-│   ├── csharp/          # C#/.NET SDK
-│   └── rust/            # Rust SDK
-├── integrations/
-│   ├── langchain/       # LangChain document loader
-│   ├── llamaindex/      # LlamaIndex data connector
-│   ├── vercel-ai/       # Vercel AI SDK provider
-│   ├── mcp-server/      # MCP Server
-│   ├── n8n/             # n8n community node
-│   ├── zapier/          # Zapier integration
-│   └── make/            # Make (Integromat) module
-├── docs/
-│   ├── api-reference.md # Complete API reference
-│   └── INTEGRATION-PLAN.md
-└── examples/
-    ├── python/
-    ├── node/
-    ├── curl/
-    ├── go/
-    └── csharp/
+│   └── python/                 # pip install docdigitizer
+│       ├── sdk-manifest.yaml   # Explicit endpoint selection for this SDK
+│       ├── src/docdigitizer/   # SDK source
+│       └── tests/              # Unit, contract & integration tests
+├── scripts/
+│   ├── sync_openapi.py         # Pull latest spec from upstream
+│   ├── validate_sdk.py         # Validate SDK against spec
+│   └── bump_version.py         # Version management
+├── tests/
+│   └── validate_manifests.py   # Cross-SDK validation
+├── .github/workflows/
+│   ├── test-python-sdk.yml     # CI: lint + test
+│   ├── publish-python-sdk.yml  # CD: publish to PyPI on tag
+│   └── spec-drift-check.yml   # Weekly: detect API changes
+├── integrations/               # (planned)
+└── docs/
+    ├── api-reference.md
+    └── INTEGRATION-PLAN.md
 ```
+
+### How API Updates Flow to SDKs
+
+1. Upstream API changes in sync2025
+2. `spec-drift-check.yml` detects the change weekly (or run `python scripts/sync_openapi.py`)
+3. Update `openapi/sync.openapi.yaml`
+4. Run `python scripts/validate_sdk.py sdks/python` to find what needs updating
+5. Update SDK → contract tests pass → bump version → tag → CI publishes to PyPI
+
+### Explicit Endpoint Selection
+
+Each SDK declares which API operations it supports in its `sdk-manifest.yaml`. Not all endpoints are exposed — this is a deliberate design choice per SDK.
 
 ## Contributing
 

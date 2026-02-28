@@ -1,0 +1,65 @@
+name: Test Python SDK
+
+on:
+  push:
+    paths:
+      - 'sdks/python/**'
+      - 'openapi/**'
+      - 'sdk-config.yaml'
+  pull_request:
+    paths:
+      - 'sdks/python/**'
+      - 'openapi/**'
+      - 'sdk-config.yaml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.10', '3.12']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install SDK with dev dependencies
+        working-directory: sdks/python
+        run: pip install -e ".[dev]"
+
+      - name: Lint
+        working-directory: sdks/python
+        run: |
+          ruff check src/ tests/
+          ruff format --check src/ tests/
+
+      - name: Unit and contract tests
+        working-directory: sdks/python
+        run: pytest tests/ -m "not integration" -v --tb=short
+
+      - name: Integration tests
+        if: env.DD_API_KEY != ''
+        working-directory: sdks/python
+        env:
+          DD_API_KEY: ${{ secrets.DD_API_KEY }}
+        run: pytest tests/test_integration.py -v --tb=short
+
+  validate-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Validate SDK manifests
+        run: python tests/validate_manifests.py

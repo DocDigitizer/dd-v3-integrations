@@ -1,0 +1,43 @@
+name: OpenAPI Spec Drift Check
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday at 9:00 UTC
+  workflow_dispatch:
+
+jobs:
+  check-drift:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Check for spec drift
+        run: python scripts/sync_openapi.py --check
+
+      - name: Sync and create PR if drifted
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/sync_openapi.py
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          BRANCH="chore/sync-openapi-$(date +%Y%m%d)"
+          git checkout -b "$BRANCH"
+          git add openapi/
+          git commit -m "chore: sync OpenAPI spec from upstream"
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "chore: sync OpenAPI spec from upstream" \
+            --body "Automated PR: the upstream API spec has changed. Review the diff and update SDKs accordingly." \
+            --base main \
+            --head "$BRANCH"

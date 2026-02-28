@@ -1,0 +1,20 @@
+# Python SDK Manifest
+# Declares which API operations this SDK exposes.
+# Only operations listed here are implemented — this is the explicit contract.
+
+sdk:
+  name: docdigitizer
+  language: python
+  version: "0.1.0"
+  api_version: "1.0.0"
+  min_python: "3.8"
+  package: "docdigitizer"
+  repository: "https://github.com/DocDigitizer/dd-v3-integrations"
+
+operations:
+  - operationId: processDocument
+    method: process
+    description: "Upload and process a PDF document"
+  - operationId: checkHealth
+    method: health_check
+    description: "Check API availability"

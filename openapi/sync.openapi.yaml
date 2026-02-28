@@ -1,0 +1,512 @@
+openapi: 3.1.0
+info:
+  title: DocDigitizer Sync API
+  version: 1.0.0
+  description: |
+    Intelligent document processing API that transforms unstructured documents into structured,
+    actionable data through OCR, AI-powered classification, and data extraction.
+
+    ## Overview
+    Use this API when you need to:
+    - Extract structured data from PDF documents (invoices, receipts, contracts, etc.)
+    - Automatically classify document types
+    - Get confidence scores for classifications
+    - Process multi-page documents with page-level tracking
+
+    ## How It Works
+    1. Upload a PDF document via multipart/form-data
+    2. The API performs OCR (Optical Character Recognition)
+    3. AI classifies the document type
+    4. Relevant data fields are extracted based on document type
+    5. Structured JSON response with extracted data, confidence scores, and timing metrics
+
+    ## Rate Limits
+    Rate limits are not currently enforced. Contact support for high-volume use cases.
+  contact:
+    name: DocDigitizer Support
+    email: support@docdigitizer.com
+    url: https://www.docdigitizer.com/contact/
+  license:
+    name: Proprietary
+    url: https://www.docdigitizer.com/legal-center/terms-of-use/
+
+servers:
+  - url: https://apix.docdigitizer.com/sync
+    description: Production server
+
+security:
+  - ApiKeyAuth: []
+
+tags:
+  - name: Health
+    description: Health check endpoints for monitoring service availability
+  - name: Document Processing
+    description: |
+      Upload and process PDF documents. Use these endpoints to extract structured data
+      from documents like invoices, receipts, contracts, and more.
+
+paths:
+  /:
+    get:
+      operationId: checkHealth
+      summary: Check API health status
+      description: |
+        Verify the API is running and responsive. Use this endpoint for health checks
+        and monitoring. Returns a simple text response when the service is operational.
+
+        Use this when you need to:
+        - Verify API availability before making processing requests
+        - Implement health monitoring
+        - Test connectivity
+      tags:
+        - Health
+      security: []
+      responses:
+        '200':
+          description: Service is healthy and ready to accept requests
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "I am alive"
+              examples:
+                healthy:
+                  summary: Healthy response
+                  value: "I am alive"
+        '503':
+          description: Service is unavailable
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Service unavailable"
+
+    post:
+      operationId: processDocument
+      summary: Process a PDF document
+      description: |
+        Upload a PDF document for processing. The API performs OCR, classifies the document
+        type, and extracts structured data based on the detected document type.
+
+        Use this when you need to:
+        - Extract data from invoices (vendor, amounts, line items)
+        - Process receipts for expense tracking
+        - Extract information from contracts
+        - Digitize any PDF document into structured data
+
+        ## Supported Document Types
+        - **Invoice**: Commercial invoices with line items, amounts, vendor info
+        - **Receipt**: Point-of-sale receipts with totals and items
+        - **Contract**: Legal agreements with parties and terms
+        - **CV/Resume**: Employment history and skills
+        - **ID Document**: Identity documents (passports, licenses)
+        - **Bank Statement**: Financial records and transactions
+
+        ## Processing Pipeline
+        The document goes through multiple processing stages:
+        1. **Validation**: PDF format and structure verification
+        2. **OCR**: Text extraction using Google Cloud Vision
+        3. **Classification**: AI-powered document type detection
+        4. **Extraction**: Field extraction based on document type schema
+
+        ## Response Headers
+        The response includes timing headers for performance monitoring:
+        - `X-DD-TraceId`: Unique request identifier for support
+        - `X-DD-NumberPages`: Number of pages in the document
+        - `X-DD-Timer-*`: Processing time breakdown in milliseconds
+      tags:
+        - Document Processing
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - files
+                - id
+                - contextID
+              properties:
+                files:
+                  type: string
+                  format: binary
+                  description: |
+                    The PDF document to process. Must be a valid PDF file with .pdf extension.
+                    Maximum file size depends on your subscription plan.
+                id:
+                  type: string
+                  format: uuid
+                  description: |
+                    Unique document identifier (UUID format). Use this to track the document
+                    in your system and correlate with extraction results.
+                  example: "550e8400-e29b-41d4-a716-446655440000"
+                contextID:
+                  type: string
+                  format: uuid
+                  description: |
+                    Context identifier for grouping related documents (UUID format).
+                    Use this to group multiple documents from the same batch, customer, or workflow.
+                  example: "7c9e6679-7425-40de-944b-e07fc1f90ae7"
+                requestToken:
+                  type: string
+                  description: |
+                    Optional trace token for distributed tracing. If not provided,
+                    a 7-character alphanumeric token will be generated automatically.
+                  example: "ABC1234"
+                pipelineIdentifier:
+                  type: string
+                  description: |
+                    Optional pipeline name to use for processing. If not specified,
+                    the default pipeline will be selected automatically.
+                  example: "MainPipelineWithOCR"
+            examples:
+              basicRequest:
+                summary: Basic document upload
+                value:
+                  files: "(binary PDF data)"
+                  id: "550e8400-e29b-41d4-a716-446655440000"
+                  contextID: "7c9e6679-7425-40de-944b-e07fc1f90ae7"
+              withPipeline:
+                summary: Upload with specific pipeline
+                value:
+                  files: "(binary PDF data)"
+                  id: "550e8400-e29b-41d4-a716-446655440000"
+                  contextID: "7c9e6679-7425-40de-944b-e07fc1f90ae7"
+                  pipelineIdentifier: "MainPipelineWithOCR"
+      responses:
+        '200':
+          description: Document processed successfully
+          headers:
+            X-DD-TraceId:
+              description: Unique request identifier for debugging and support
+              schema:
+                type: string
+                example: "ABC1234"
+            X-DD-NumberPages:
+              description: Number of pages in the processed document
+              schema:
+                type: integer
+                example: 3
+            X-DD-Timer-DocIngester-Total:
+              description: Total processing time in milliseconds
+              schema:
+                type: number
+                example: 2345.67
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessingResponse'
+              examples:
+                invoiceSuccess:
+                  summary: Successful invoice extraction
+                  value:
+                    StateText: "COMPLETED"
+                    TraceId: "ABC1234"
+                    Pipeline: "MainPipelineWithOCR"
+                    NumberPages: 2
+                    Output:
+                      extractions:
+                        - documentType: "Invoice"
+                          confidence: 0.95
+                          countryCode: "PT"
+                          pageRange:
+                            start: 1
+                            end: 2
+                          extraction:
+                            invoiceNumber: "INV-2024-001"
+                            invoiceDate: "2024-01-15"
+                            vendorName: "Acme Corp"
+                            vendorNIF: "123456789"
+                            totalAmount: 1250.00
+                            currency: "EUR"
+                            lineItems:
+                              - description: "Product A"
+                                quantity: 2
+                                unitPrice: 500.00
+                                total: 1000.00
+                              - description: "Product B"
+                                quantity: 1
+                                unitPrice: 250.00
+                                total: 250.00
+                    Timers:
+                      DocIngester:
+                        total: 2345.67
+                        ForwardRequest: 2300.00
+                        DocWorker:
+                          total: 2250.00
+                          OCR: 1200.00
+                          Classification: 450.00
+                          Extraction: 600.00
+        '400':
+          description: Invalid request - missing parameters or invalid file format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                invalidPdf:
+                  summary: Invalid PDF file
+                  value:
+                    StateText: "ERROR"
+                    TraceId: "XYZ7890"
+                    Timers:
+                      DocIngester_Total: 45.23
+                    Messages:
+                      - "File must be a PDF document"
+                missingId:
+                  summary: Missing document ID
+                  value:
+                    StateText: "ERROR"
+                    TraceId: "DEF4567"
+                    Timers:
+                      DocIngester_Total: 12.45
+                    Messages:
+                      - "Invalid or missing 'id' parameter"
+        '401':
+          description: Unauthorized - invalid or missing API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                unauthorized:
+                  summary: Invalid API key
+                  value:
+                    StateText: "ERROR"
+                    TraceId: "UNA1234"
+                    Timers:
+                      DocIngester_Total: 5.12
+                    Messages:
+                      - "Invalid or missing API key"
+        '500':
+          description: Server error during processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                processingError:
+                  summary: Processing failed
+                  value:
+                    StateText: "ERROR"
+                    TraceId: "ERR9876"
+                    Timers:
+                      DocIngester_Total: 5234.56
+                    Messages:
+                      - "DocWorker returned error: 500"
+                      - "Processing failed. Check server logs for details."
+        '503':
+          description: Service unavailable - downstream service unreachable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                serviceUnavailable:
+                  summary: Downstream service unavailable
+                  value:
+                    StateText: "ERROR"
+                    TraceId: "SVC1234"
+                    Timers:
+                      DocIngester_Total: 30012.34
+                    Messages:
+                      - "Cannot connect to DocWorker: Connection refused"
+        '504':
+          description: Gateway timeout - processing took too long
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                timeout:
+                  summary: Processing timeout
+                  value:
+                    StateText: "ERROR"
+                    TraceId: "TMO1234"
+                    Timers:
+                      DocIngester_Total: 300000.00
+                    Messages:
+                      - "DocWorker request timed out"
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: |
+        API key for authentication. Obtain your API key from your DocDigitizer dashboard.
+        Include this header in all requests except health checks.
+
+        **Note**: This authentication method is temporary and will be migrated to OAuth 2.0
+        via Apigee X in a future release.
+
+  schemas:
+    ProcessingResponse:
+      type: object
+      description: |
+        Response returned when a document is processed successfully. Contains the processing
+        state, extracted data, timing metrics, and any messages.
+      required:
+        - StateText
+        - TraceId
+      properties:
+        StateText:
+          type: string
+          enum:
+            - COMPLETED
+            - PROCESSING
+            - ERROR
+          description: |
+            Processing state indicator:
+            - **COMPLETED**: Processing finished successfully with extraction results
+            - **PROCESSING**: Document accepted and queued (async mode)
+            - **ERROR**: Processing failed, check Messages for details
+          example: "COMPLETED"
+        TraceId:
+          type: string
+          description: |
+            Unique 7-character alphanumeric trace identifier for this request.
+            Use this when contacting support or correlating logs.
+          example: "ABC1234"
+        Pipeline:
+          type: string
+          description: Name of the processing pipeline that was executed
+          example: "MainPipelineWithOCR"
+        NumberPages:
+          type: integer
+          description: Total number of pages in the processed document
+          example: 3
+        Output:
+          $ref: '#/components/schemas/ProcessingOutput'
+        PluginExecutions:
+          type: object
+          description: |
+            Detailed execution results from each pipeline step. Only included when
+            X-DD-LogLevel header is set to 'full' or 'medium'.
+          additionalProperties: true
+        Timers:
+          type: object
+          description: |
+            Hierarchical performance timing metrics in milliseconds. Structure depends
+            on X-DD-LogLevel header value (minimal/medium/full).
+          additionalProperties: true
+          example:
+            DocIngester:
+              total: 2345.67
+              ForwardRequest: 2300.00
+        Errors:
+          type: object
+          description: Detailed error information when StateText is ERROR
+          additionalProperties: true
+        Messages:
+          type: array
+          description: Status or error messages providing additional context
+          items:
+            type: string
+          example:
+            - "Document processed successfully"
+
+    ProcessingOutput:
+      type: object
+      description: Container for extraction results from the processed document
+      properties:
+        extractions:
+          type: array
+          description: |
+            Array of extracted documents. A single PDF may contain multiple documents
+            (e.g., a multi-page PDF with different invoices on different pages).
+          items:
+            $ref: '#/components/schemas/Extraction'
+
+    Extraction:
+      type: object
+      description: |
+        Extracted data from a single document or document segment within the PDF.
+        Each extraction includes the classified document type, confidence score,
+        page range, and the actual extracted field values.
+      properties:
+        documentType:
+          type: string
+          description: |
+            Classified document type. Common values include: Invoice, Receipt,
+            Contract, CV, ID Document, Bank Statement.
+          example: "Invoice"
+        confidence:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 1
+          description: |
+            Classification confidence score from 0.0 to 1.0. Higher values indicate
+            more confident classification. Scores above 0.8 are generally reliable.
+          example: 0.95
+        countryCode:
+          type: string
+          description: |
+            Detected country code (ISO 3166-1 alpha-2). Used to apply country-specific
+            extraction schemas and formatting rules.
+          example: "PT"
+        pageRange:
+          type: object
+          description: Page range within the PDF where this document was found
+          properties:
+            start:
+              type: integer
+              description: Starting page number (1-indexed)
+              example: 1
+            end:
+              type: integer
+              description: Ending page number (1-indexed)
+              example: 2
+        extraction:
+          type: object
+          description: |
+            Extracted field values. Structure varies by document type. For invoices,
+            includes fields like invoiceNumber, date, amounts, line items, etc.
+          additionalProperties: true
+          example:
+            invoiceNumber: "INV-2024-001"
+            invoiceDate: "2024-01-15"
+            vendorName: "Acme Corp"
+            totalAmount: 1250.00
+            currency: "EUR"
+
+    ErrorResponse:
+      type: object
+      description: |
+        Error response returned when document processing fails. Always includes
+        StateText as "ERROR", a TraceId for support, and Messages describing the error.
+      required:
+        - StateText
+        - TraceId
+        - Messages
+      properties:
+        StateText:
+          type: string
+          enum:
+            - ERROR
+          description: Always "ERROR" for error responses
+          example: "ERROR"
+        TraceId:
+          type: string
+          description: |
+            Unique trace identifier for this request. Provide this when contacting
+            support to help diagnose issues.
+          example: "XYZ7890"
+        Timers:
+          type: object
+          description: Processing time metrics up until the error occurred (milliseconds)
+          additionalProperties:
+            type: number
+          example:
+            DocIngester_Total: 45.23
+        Messages:
+          type: array
+          description: |
+            Array of error messages describing what went wrong. May include
+            multiple messages if there were cascading errors.
+          items:
+            type: string
+          example:
+            - "File must be a PDF document"

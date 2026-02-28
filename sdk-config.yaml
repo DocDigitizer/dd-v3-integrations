@@ -1,0 +1,15 @@
+# DocDigitizer SDK Global Configuration
+# This file defines the API version and base URLs shared across all SDKs.
+
+api:
+  name: DocDigitizer
+  version: "1.0.0"
+  base_url: "https://apix.docdigitizer.com/sync"
+  auth:
+    type: api_key
+    header: "X-API-Key"
+
+spec:
+  path: "openapi/sync.openapi.yaml"
+  source_repo: "https://github.com/DocDigitizer/sync2025"
+  source_path: "docs/openapi/sync.openapi.yaml"
