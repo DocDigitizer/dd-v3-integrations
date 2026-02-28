@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>DocDigitizer</RootNamespace>
+    <PackageId>DocDigitizer</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>DocDigitizer</Authors>
+    <Company>DocDigitizer</Company>
+    <Description>Official C# SDK for the DocDigitizer document processing API</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/DocDigitizer/dd-v3-integrations</RepositoryUrl>
+    <PackageTags>docdigitizer;ocr;pdf;document-processing;invoice;extraction</PackageTags>
+  </PropertyGroup>
+
+</Project>

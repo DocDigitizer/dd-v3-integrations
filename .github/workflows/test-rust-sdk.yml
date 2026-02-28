@@ -1,0 +1,23 @@
+name: Test Rust SDK
+
+on:
+  push:
+    paths: ['sdks/rust/**']
+  pull_request:
+    paths: ['sdks/rust/**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        rust-version: [stable, '1.70']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust-version }}
+      - run: cargo build
+        working-directory: sdks/rust
+      - run: cargo test
+        working-directory: sdks/rust

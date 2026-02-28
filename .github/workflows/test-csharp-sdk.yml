@@ -1,0 +1,25 @@
+name: Test C# SDK
+
+on:
+  push:
+    paths: ['sdks/csharp/**']
+  pull_request:
+    paths: ['sdks/csharp/**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ['6.0.x', '8.0.x']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - run: dotnet restore
+        working-directory: sdks/csharp
+      - run: dotnet build --no-restore
+        working-directory: sdks/csharp
+      - run: dotnet test --no-build --verbosity normal
+        working-directory: sdks/csharp

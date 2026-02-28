@@ -1,0 +1,22 @@
+[package]
+name = "docdigitizer"
+version = "0.1.0"
+edition = "2021"
+description = "Official Rust SDK for the DocDigitizer document processing API"
+license = "MIT"
+repository = "https://github.com/DocDigitizer/dd-v3-integrations"
+keywords = ["docdigitizer", "ocr", "pdf", "document-processing", "invoice"]
+categories = ["api-bindings"]
+
+[dependencies]
+reqwest = { version = "0.12", features = ["multipart", "json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["fs"] }
+uuid = { version = "1", features = ["v4"] }
+thiserror = "2"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full", "test-util"] }
+serde_yaml = "0.9"
+wiremock = "0.6"

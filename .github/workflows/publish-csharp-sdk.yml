@@ -1,0 +1,41 @@
+name: Publish C# SDK to NuGet
+
+on:
+  push:
+    tags: ['csharp-v*']
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet restore
+        working-directory: sdks/csharp
+      - run: dotnet build --no-restore
+        working-directory: sdks/csharp
+      - run: dotnet test --no-build --verbosity normal
+        working-directory: sdks/csharp
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: nuget
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet restore
+        working-directory: sdks/csharp
+      - run: dotnet build --configuration Release --no-restore
+        working-directory: sdks/csharp
+      - run: dotnet pack --configuration Release --no-build --output ./nupkg
+        working-directory: sdks/csharp/src/DocDigitizer
+      - run: dotnet nuget push ./nupkg/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+        working-directory: sdks/csharp/src/DocDigitizer
