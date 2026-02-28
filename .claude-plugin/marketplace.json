@@ -1,0 +1,23 @@
+{
+  "name": "docdigitizer-plugins",
+  "owner": {
+    "name": "DocDigitizer",
+    "email": "support@docdigitizer.com"
+  },
+  "metadata": {
+    "description": "Official DocDigitizer plugins for Claude Code",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "docdigitizer",
+      "source": "./integrations/claude-plugin",
+      "description": "Process PDF documents with DocDigitizer — extract structured data from invoices, receipts, contracts, CVs, IDs, and bank statements",
+      "version": "0.1.0",
+      "author": {
+        "name": "DocDigitizer"
+      },
+      "keywords": ["ocr", "pdf", "document-processing", "invoice", "extraction"]
+    }
+  ]
+}

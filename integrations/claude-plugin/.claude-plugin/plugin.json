@@ -1,0 +1,21 @@
+{
+  "name": "docdigitizer",
+  "description": "Process PDF documents with DocDigitizer — extract structured data from invoices, receipts, contracts, CVs, IDs, and bank statements",
+  "version": "0.1.0",
+  "author": {
+    "name": "DocDigitizer",
+    "email": "support@docdigitizer.com"
+  },
+  "homepage": "https://github.com/DocDigitizer/dd-v3-integrations",
+  "repository": "https://github.com/DocDigitizer/dd-v3-integrations",
+  "license": "MIT",
+  "keywords": [
+    "docdigitizer",
+    "ocr",
+    "pdf",
+    "document-processing",
+    "invoice",
+    "extraction",
+    "mcp"
+  ]
+}

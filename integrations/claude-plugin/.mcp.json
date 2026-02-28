@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "docdigitizer": {
+      "command": "npx",
+      "args": ["-y", "@docdigitizer/mcp-server"],
+      "env": {
+        "DOCDIGITIZER_API_KEY": "${DOCDIGITIZER_API_KEY}"
+      }
+    }
+  }
+}
