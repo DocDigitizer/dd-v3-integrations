@@ -87,29 +87,31 @@ class TestManifestMatchesSpec:
 class TestResponseSchemaContract:
     """Validate that SDK fixture responses conform to the OpenAPI response schemas."""
 
-    def test_successful_response_matches_schema(self, openapi_spec, successful_response_json):
-        """The fixture used in unit tests must match the OpenAPI ProcessingResponse schema."""
+    def test_successful_response_matches_schema(
+        self, openapi_spec, successful_response_json_pascal
+    ):
+        """The PascalCase fixture must match the OpenAPI ProcessingResponse schema."""
         schema = _get_schema(
             openapi_spec,
             openapi_spec["components"]["schemas"]["ProcessingResponse"],
         )
         resolved = _deep_resolve(openapi_spec, schema)
         validator = Draft202012Validator(resolved)
-        errors = list(validator.iter_errors(successful_response_json))
+        errors = list(validator.iter_errors(successful_response_json_pascal))
         assert not errors, (
             "Successful response fixture does not match OpenAPI schema:\n"
             + "\n".join(f"  - {e.message}" for e in errors)
         )
 
-    def test_error_response_matches_schema(self, openapi_spec, error_response_json):
-        """The error fixture must match the OpenAPI ErrorResponse schema."""
+    def test_error_response_matches_schema(self, openapi_spec, error_response_json_pascal):
+        """The PascalCase error fixture must match the OpenAPI ErrorResponse schema."""
         schema = _get_schema(
             openapi_spec,
             openapi_spec["components"]["schemas"]["ErrorResponse"],
         )
         resolved = _deep_resolve(openapi_spec, schema)
         validator = Draft202012Validator(resolved)
-        errors = list(validator.iter_errors(error_response_json))
+        errors = list(validator.iter_errors(error_response_json_pascal))
         assert not errors, "Error response fixture does not match OpenAPI schema:\n" + "\n".join(
             f"  - {e.message}" for e in errors
         )

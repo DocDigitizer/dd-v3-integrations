@@ -20,7 +20,49 @@ def api_key():
 
 @pytest.fixture
 def successful_response_json():
-    """A realistic successful API response matching the OpenAPI schema."""
+    """A realistic successful API response using camelCase (actual API format)."""
+    return {
+        "stateText": "COMPLETED",
+        "traceId": "ABC1234",
+        "pipeline": "MainPipelineWithOCR",
+        "numberPages": 2,
+        "output": {
+            "extractions": [
+                {
+                    "docType": "Invoice",
+                    "confidence": 0.95,
+                    "country": "PT",
+                    "pages": [1, 2],
+                    "modelSource": "llm",
+                    "schema": "Invoice_PT.json",
+                    "extraction": {
+                        "DocumentNumber": "INV-2024-001",
+                        "EmissionDate": "2024-01-15",
+                        "Supplier": {
+                            "FullName": "Acme Corp",
+                            "TaxNumber": "123456789",
+                        },
+                        "TotalAmount": 1250.00,
+                        "Currency": "EUR",
+                        "Items": [
+                            {
+                                "description": "Product A",
+                                "quantity": 2,
+                                "unitPrice": 500.00,
+                                "total": 1000.00,
+                            }
+                        ],
+                    },
+                }
+            ]
+        },
+        "timers": {"DocIngester": {"Total": 2345.67}},
+    }
+
+
+@pytest.fixture
+def successful_response_json_pascal():
+    """Same response in PascalCase (OpenAPI spec format) for contract tests."""
     return {
         "StateText": "COMPLETED",
         "TraceId": "ABC1234",
@@ -35,19 +77,7 @@ def successful_response_json():
                     "pageRange": {"start": 1, "end": 2},
                     "extraction": {
                         "invoiceNumber": "INV-2024-001",
-                        "invoiceDate": "2024-01-15",
-                        "vendorName": "Acme Corp",
-                        "vendorNIF": "123456789",
                         "totalAmount": 1250.00,
-                        "currency": "EUR",
-                        "lineItems": [
-                            {
-                                "description": "Product A",
-                                "quantity": 2,
-                                "unitPrice": 500.00,
-                                "total": 1000.00,
-                            }
-                        ],
                     },
                 }
             ]
@@ -59,7 +89,18 @@ def successful_response_json():
 
 @pytest.fixture
 def error_response_json():
-    """A realistic error API response."""
+    """A realistic error API response (camelCase)."""
+    return {
+        "stateText": "ERROR",
+        "traceId": "ERR9876",
+        "timers": {"DocIngester_Total": 45.23},
+        "messages": ["File must be a PDF document"],
+    }
+
+
+@pytest.fixture
+def error_response_json_pascal():
+    """Error response in PascalCase (OpenAPI spec format) for contract tests."""
     return {
         "StateText": "ERROR",
         "TraceId": "ERR9876",

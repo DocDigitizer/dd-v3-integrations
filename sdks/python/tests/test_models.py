@@ -3,7 +3,9 @@
 from docdigitizer.models import Extraction, PageRange, parse_response
 
 
-class TestParseResponse:
+class TestParseResponseCamelCase:
+    """Tests with camelCase (actual API format)."""
+
     def test_completed_response(self, successful_response_json):
         result = parse_response(successful_response_json)
 
@@ -13,7 +15,6 @@ class TestParseResponse:
         assert result.trace_id == "ABC1234"
         assert result.pipeline == "MainPipelineWithOCR"
         assert result.num_pages == 2
-        assert result.messages == ["Document processed successfully"]
         assert result.timers is not None
 
     def test_extractions(self, successful_response_json):
@@ -25,14 +26,16 @@ class TestParseResponse:
         assert ext.document_type == "Invoice"
         assert ext.confidence == 0.95
         assert ext.country_code == "PT"
-        assert ext.data["invoiceNumber"] == "INV-2024-001"
-        assert ext.data["totalAmount"] == 1250.00
-        assert len(ext.data["lineItems"]) == 1
+        assert ext.data["DocumentNumber"] == "INV-2024-001"
+        assert ext.data["TotalAmount"] == 1250.00
+        assert ext.schema == "Invoice_PT.json"
+        assert ext.model_source == "llm"
 
-    def test_page_range(self, successful_response_json):
+    def test_pages_and_page_range(self, successful_response_json):
         result = parse_response(successful_response_json)
         ext = result.extractions[0]
 
+        assert ext.pages == [1, 2]
         assert isinstance(ext.page_range, PageRange)
         assert ext.page_range.start == 1
         assert ext.page_range.end == 2
@@ -46,21 +49,59 @@ class TestParseResponse:
         assert result.trace_id == "ERR9876"
         assert result.messages == ["File must be a PDF document"]
 
+
+class TestParseResponsePascalCase:
+    """Tests with PascalCase (OpenAPI spec format) — backward compatibility."""
+
+    def test_completed_response(self, successful_response_json_pascal):
+        result = parse_response(successful_response_json_pascal)
+
+        assert result.state == "COMPLETED"
+        assert result.trace_id == "ABC1234"
+        assert result.pipeline == "MainPipelineWithOCR"
+        assert result.num_pages == 2
+        assert result.messages == ["Document processed successfully"]
+
+    def test_extractions_pascal(self, successful_response_json_pascal):
+        result = parse_response(successful_response_json_pascal)
+
+        assert len(result.extractions) == 1
+        ext = result.extractions[0]
+        assert ext.document_type == "Invoice"
+        assert ext.country_code == "PT"
+
+    def test_page_range_from_object(self, successful_response_json_pascal):
+        result = parse_response(successful_response_json_pascal)
+        ext = result.extractions[0]
+
+        assert isinstance(ext.page_range, PageRange)
+        assert ext.page_range.start == 1
+        assert ext.page_range.end == 2
+
+    def test_error_response_pascal(self, error_response_json_pascal):
+        result = parse_response(error_response_json_pascal)
+
+        assert result.state == "ERROR"
+        assert result.trace_id == "ERR9876"
+        assert result.messages == ["File must be a PDF document"]
+
+
+class TestParseResponseEdgeCases:
     def test_empty_output(self):
-        result = parse_response({"StateText": "COMPLETED", "TraceId": "X"})
+        result = parse_response({"stateText": "COMPLETED", "traceId": "X"})
 
         assert result.extractions == []
         assert result.output is None
 
     def test_null_fields(self):
         data = {
-            "StateText": "COMPLETED",
-            "TraceId": "X",
-            "Pipeline": None,
-            "NumberPages": None,
-            "Output": None,
-            "Timers": None,
-            "Messages": None,
+            "stateText": "COMPLETED",
+            "traceId": "X",
+            "pipeline": None,
+            "numberPages": None,
+            "output": None,
+            "timers": None,
+            "messages": None,
         }
         result = parse_response(data)
 
@@ -71,23 +112,23 @@ class TestParseResponse:
 
     def test_multiple_extractions(self):
         data = {
-            "StateText": "COMPLETED",
-            "TraceId": "MULTI1",
-            "Output": {
+            "stateText": "COMPLETED",
+            "traceId": "MULTI1",
+            "output": {
                 "extractions": [
                     {
-                        "documentType": "Invoice",
+                        "docType": "Invoice",
                         "confidence": 0.9,
-                        "countryCode": "PT",
-                        "pageRange": {"start": 1, "end": 2},
-                        "extraction": {"invoiceNumber": "INV-001"},
+                        "country": "PT",
+                        "pages": [1, 2],
+                        "extraction": {"DocumentNumber": "INV-001"},
                     },
                     {
-                        "documentType": "Receipt",
+                        "docType": "Receipt",
                         "confidence": 0.85,
-                        "countryCode": "ES",
-                        "pageRange": {"start": 3, "end": 3},
-                        "extraction": {"receiptNumber": "REC-001"},
+                        "country": "ES",
+                        "pages": [3],
+                        "extraction": {"DocumentNumber": "REC-001"},
                     },
                 ]
             },
@@ -96,3 +137,6 @@ class TestParseResponse:
         assert len(result.extractions) == 2
         assert result.extractions[0].document_type == "Invoice"
         assert result.extractions[1].document_type == "Receipt"
+        assert result.extractions[1].pages == [3]
+        assert result.extractions[1].page_range.start == 3
+        assert result.extractions[1].page_range.end == 3

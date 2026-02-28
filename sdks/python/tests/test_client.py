@@ -108,9 +108,9 @@ class TestClientProcess:
             lambda req: httpx.Response(
                 401,
                 json={
-                    "StateText": "ERROR",
-                    "TraceId": "UNA1234",
-                    "Messages": ["Invalid API key"],
+                    "stateText": "ERROR",
+                    "traceId": "UNA1234",
+                    "messages": ["Invalid API key"],
                 },
                 headers={"Content-Type": "application/json"},
             )
@@ -132,9 +132,9 @@ class TestClientProcess:
             lambda req: httpx.Response(
                 400,
                 json={
-                    "StateText": "ERROR",
-                    "TraceId": "VAL1234",
-                    "Messages": ["File must be a PDF document"],
+                    "stateText": "ERROR",
+                    "traceId": "VAL1234",
+                    "messages": ["File must be a PDF document"],
                 },
                 headers={"Content-Type": "application/json"},
             )

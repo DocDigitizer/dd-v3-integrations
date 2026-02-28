@@ -96,9 +96,9 @@ class DocDigitizer:
         if status >= 400:
             raise_for_status(
                 status,
-                trace_id=body.get("TraceId") or dd_headers.get("trace_id"),
-                messages=body.get("Messages"),
-                timers=body.get("Timers"),
+                trace_id=(body.get("traceId") or body.get("TraceId") or dd_headers.get("trace_id")),
+                messages=body.get("messages") or body.get("Messages"),
+                timers=body.get("timers") or body.get("Timers"),
             )
 
         return parse_response(body)
