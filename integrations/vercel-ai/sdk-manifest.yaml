@@ -1,0 +1,15 @@
+sdk:
+  name: docdigitizer-ai
+  language: typescript
+  version: "0.1.0"
+  api_version: "1.0.0"
+  type: integration
+  framework: vercel-ai
+
+operations:
+  - operationId: processDocument
+    tool: processDocumentTool
+    description: AI-callable tool to process PDF documents and extract structured data
+  - operationId: checkHealth
+    tool: healthCheckTool
+    description: AI-callable tool to check API availability

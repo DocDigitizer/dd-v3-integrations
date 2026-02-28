@@ -1,0 +1,39 @@
+name: Publish LlamaIndex to PyPI
+
+on:
+  push:
+    tags: ['llamaindex-v*']
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e ".[dev]"
+        working-directory: integrations/llamaindex
+      - run: pytest tests/ -v
+        working-directory: integrations/llamaindex
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: pypi
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install build twine
+      - run: python -m build
+        working-directory: integrations/llamaindex
+      - run: twine upload dist/*
+        working-directory: integrations/llamaindex
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}

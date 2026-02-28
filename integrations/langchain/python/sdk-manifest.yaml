@@ -1,0 +1,15 @@
+sdk:
+  name: langchain-docdigitizer
+  language: python
+  version: "0.1.0"
+  api_version: "1.0.0"
+  type: integration
+  framework: langchain
+
+operations:
+  - operationId: processDocument
+    method: load
+    description: Process PDF documents and return LangChain Document objects
+  - operationId: checkHealth
+    method: health_check
+    description: Check API availability (delegated to underlying SDK)

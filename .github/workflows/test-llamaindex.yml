@@ -1,0 +1,23 @@
+name: Test LlamaIndex
+
+on:
+  push:
+    paths: ['integrations/llamaindex/**']
+  pull_request:
+    paths: ['integrations/llamaindex/**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install -e ".[dev]"
+        working-directory: integrations/llamaindex
+      - run: pytest tests/ -v
+        working-directory: integrations/llamaindex

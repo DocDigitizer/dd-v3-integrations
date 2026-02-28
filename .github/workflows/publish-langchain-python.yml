@@ -1,0 +1,39 @@
+name: Publish LangChain Python to PyPI
+
+on:
+  push:
+    tags: ['langchain-python-v*']
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e ".[dev]"
+        working-directory: integrations/langchain/python
+      - run: pytest tests/ -v
+        working-directory: integrations/langchain/python
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: pypi
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install build twine
+      - run: python -m build
+        working-directory: integrations/langchain/python
+      - run: twine upload dist/*
+        working-directory: integrations/langchain/python
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}

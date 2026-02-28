@@ -1,0 +1,15 @@
+sdk:
+  name: llama-index-readers-docdigitizer
+  language: python
+  version: "0.1.0"
+  api_version: "1.0.0"
+  type: integration
+  framework: llamaindex
+
+operations:
+  - operationId: processDocument
+    method: load_data
+    description: Process PDF documents and return LlamaIndex Document objects
+  - operationId: checkHealth
+    method: health_check
+    description: Check API availability (delegated to underlying SDK)

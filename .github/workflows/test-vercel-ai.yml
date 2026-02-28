@@ -1,0 +1,23 @@
+name: Test Vercel AI SDK
+
+on:
+  push:
+    paths: ['integrations/vercel-ai/**']
+  pull_request:
+    paths: ['integrations/vercel-ai/**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+        working-directory: integrations/vercel-ai
+      - run: npm test
+        working-directory: integrations/vercel-ai

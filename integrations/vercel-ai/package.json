@@ -1,0 +1,60 @@
+{
+  "name": "docdigitizer-ai",
+  "version": "0.1.0",
+  "description": "Vercel AI SDK tools for the DocDigitizer document processing API",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "docdigitizer": ">=0.1.0",
+    "zod": ">=3.22.0"
+  },
+  "peerDependencies": {
+    "ai": ">=4.0.0"
+  },
+  "devDependencies": {
+    "ai": "^4.0.0",
+    "@types/node": "^18.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^3.0.0",
+    "yaml": "^2.7.0"
+  },
+  "author": {
+    "name": "DocDigitizer",
+    "email": "support@docdigitizer.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DocDigitizer/dd-v3-integrations",
+    "directory": "integrations/vercel-ai"
+  },
+  "keywords": [
+    "vercel",
+    "ai-sdk",
+    "docdigitizer",
+    "ocr",
+    "pdf",
+    "document-processing",
+    "tool",
+    "agent"
+  ]
+}
