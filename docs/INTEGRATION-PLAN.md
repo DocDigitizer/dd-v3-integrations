@@ -1,5 +1,26 @@
 # DocDigitizer Integrations & SDKs — Plan
 
+## Status Summary
+
+| Phase | Item | Status |
+|-------|------|--------|
+| **1** | Python SDK (`docdigitizer`) | **Published** v0.1.0 on PyPI |
+| **1** | Node.js SDK (`docdigitizer`) | **Published** v0.1.0 on npm |
+| **1** | Go SDK | **Published** v0.1.0 on GitHub |
+| **1** | C# SDK (`DocDigitizer`) | **Published** v0.1.0 on NuGet |
+| **1** | Rust SDK (`docdigitizer`) | **Published** v0.1.0 on crates.io |
+| **2** | LangChain Python (`langchain-docdigitizer`) | **Published** v0.1.0 on PyPI |
+| **2** | LangChain JS (`@docdigitizer/langchain`) | **Published** v0.1.0 on npm |
+| **2** | LlamaIndex (`llama-index-readers-docdigitizer`) | **Published** v0.1.0 on PyPI |
+| **2** | Vercel AI SDK (`docdigitizer-ai`) | **Published** v0.1.0 on npm |
+| **3** | MCP Server (`@docdigitizer/mcp-server`) | **Published** v0.1.0 on npm |
+| **3** | Claude Plugin | **Published** v0.1.0 |
+| **4** | n8n Node | Planned |
+| **4** | Zapier | Planned |
+| **4** | Make (Integromat) | Planned |
+
+---
+
 ## API Surface for SDK Coverage
 
 Based on the analysis of `sync2025`, the DocDigitizer API has two tiers:
@@ -435,21 +456,22 @@ integrations/zapier/
 
 ## Implementation Priority & Timeline
 
-| Phase | Item | Priority | Dependencies |
-|-------|------|----------|--------------|
-| **1** | Python SDK | Highest | None |
-| **1** | Node.js SDK | Highest | None |
-| **2** | MCP Server | High | Node.js SDK |
-| **2** | LangChain (Python) | High | Python SDK |
-| **2** | LlamaIndex | High | Python SDK |
-| **2** | LangChain (JS) | High | Node.js SDK |
-| **3** | n8n Node | Medium | Node.js SDK |
-| **3** | Go SDK | Medium | None |
-| **3** | C# SDK | Medium | None |
-| **3** | Vercel AI SDK | Medium | Node.js SDK |
-| **4** | Zapier | Medium | None |
-| **4** | Make | Medium | None |
-| **4** | Rust SDK | Low | None |
+| Phase | Item | Priority | Dependencies | Status |
+|-------|------|----------|--------------|--------|
+| **1** | Python SDK | Highest | None | **Done** |
+| **1** | Node.js SDK | Highest | None | **Done** |
+| **1** | Go SDK | Medium | None | **Done** |
+| **1** | C# SDK | Medium | None | **Done** |
+| **1** | Rust SDK | Low | None | **Done** |
+| **2** | LangChain (Python) | High | Python SDK | **Done** |
+| **2** | LlamaIndex | High | Python SDK | **Done** |
+| **2** | LangChain (JS) | High | Node.js SDK | **Done** |
+| **2** | Vercel AI SDK | Medium | Node.js SDK | **Done** |
+| **3** | MCP Server | High | Node.js SDK | **Done** |
+| **3** | Claude Plugin | High | MCP Server | **Done** |
+| **4** | n8n Node | Medium | Node.js SDK | Planned |
+| **4** | Zapier | Medium | None | Planned |
+| **4** | Make | Medium | None | Planned |
 
 ## Design Principles
 
