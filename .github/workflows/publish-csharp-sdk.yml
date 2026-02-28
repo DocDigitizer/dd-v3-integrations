@@ -14,7 +14,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: |
+            6.0.x
+            8.0.x
       - run: dotnet restore
         working-directory: sdks/csharp
       - run: dotnet build --no-restore
@@ -30,7 +32,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: |
+            6.0.x
+            8.0.x
       - run: dotnet restore
         working-directory: sdks/csharp
       - run: dotnet build --configuration Release --no-restore
