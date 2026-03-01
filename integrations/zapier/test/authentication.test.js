@@ -1,12 +1,13 @@
 const { describe, it, expect, beforeEach } = require("@jest/globals");
 
-jest.mock("docdigitizer", () => ({
-  DocDigitizer: jest.fn().mockImplementation(() => ({
-    healthCheck: jest.fn(),
-  })),
-}), { virtual: true });
+const mockHealthCheck = jest.fn();
+jest.mock("../lib/sdk", () => ({
+  getClient: jest.fn().mockImplementation(() =>
+    Promise.resolve({ healthCheck: mockHealthCheck }),
+  ),
+}));
 
-const { DocDigitizer } = require("docdigitizer");
+const { getClient } = require("../lib/sdk");
 const authentication = require("../authentication");
 
 describe("Authentication", () => {
@@ -30,10 +31,7 @@ describe("Authentication", () => {
   });
 
   it("test function calls healthCheck", async () => {
-    const mockInstance = {
-      healthCheck: jest.fn().mockResolvedValue("I am alive"),
-    };
-    DocDigitizer.mockImplementation(() => mockInstance);
+    mockHealthCheck.mockResolvedValue("I am alive");
 
     const z = {};
     const bundle = {
@@ -45,17 +43,14 @@ describe("Authentication", () => {
 
     const result = await authentication.test(z, bundle);
     expect(result.message).toBe("I am alive");
-    expect(DocDigitizer).toHaveBeenCalledWith({
+    expect(getClient).toHaveBeenCalledWith({
       apiKey: "test-key",
       baseUrl: "https://apix.docdigitizer.com/sync",
     });
   });
 
   it("test function throws on healthCheck failure", async () => {
-    const mockInstance = {
-      healthCheck: jest.fn().mockRejectedValue(new Error("Unauthorized")),
-    };
-    DocDigitizer.mockImplementation(() => mockInstance);
+    mockHealthCheck.mockRejectedValue(new Error("Unauthorized"));
 
     const z = {};
     const bundle = {

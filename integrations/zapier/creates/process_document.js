@@ -1,7 +1,7 @@
-const { DocDigitizer } = require("docdigitizer");
+const { getClient } = require("../lib/sdk");
 
 const perform = async (z, bundle) => {
-  const client = new DocDigitizer({
+  const client = await getClient({
     apiKey: bundle.authData.apiKey,
     baseUrl: bundle.authData.baseUrl || undefined,
   });

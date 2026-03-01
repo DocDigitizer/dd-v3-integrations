@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "docdigitizer": ">=0.1.0",
-    "zapier-platform-core": "15.*"
+    "zapier-platform-core": "15.19.0"
   },
   "devDependencies": {
     "zapier-platform-cli": "15.*",
