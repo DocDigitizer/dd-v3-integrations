@@ -6,7 +6,7 @@ Process PDF documents and get structured data back — OCR, classification, and 
 
 ## Overview
 
-Make apps are configured via JSON in the [Make Developer Hub](https://www.make.com/en/developer-hub) — there is no npm package. This directory contains the JSON configuration templates ready to be imported into Make.
+Make apps are configured via JSON in the [Make Developer Hub](https://developers.make.com/) — there is no npm package. This directory contains the JSON configuration templates ready to be imported into Make.
 
 ## Modules
 
@@ -43,7 +43,7 @@ Check if the DocDigitizer API is healthy and responsive.
 
 ### 1. Create App in Make Developer Hub
 
-1. Go to [Make Developer Hub](https://www.make.com/en/developer-hub)
+1. Go to [Make Developer Hub](https://developers.make.com/)
 2. Click **Create a new app**
 3. Enter app name: **DocDigitizer**
 
@@ -94,7 +94,7 @@ npm test
 
 - [DocDigitizer](https://docdigitizer.com)
 - [All SDKs & Integrations](https://github.com/DocDigitizer/dd-v3-integrations)
-- [Make Developer Hub](https://www.make.com/en/developer-hub)
+- [Make Developer Hub](https://developers.make.com/)
 
 ## License
 
