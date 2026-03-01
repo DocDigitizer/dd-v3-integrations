@@ -1,0 +1,33 @@
+{
+  "connection": {
+    "type": "apiKey",
+    "label": "DocDigitizer API Connection",
+    "parameters": [
+      {
+        "name": "apiKey",
+        "type": "text",
+        "label": "API Key",
+        "required": true,
+        "help": "Your DocDigitizer API key"
+      },
+      {
+        "name": "baseUrl",
+        "type": "text",
+        "label": "Base URL",
+        "required": false,
+        "default": "https://apix.docdigitizer.com/sync",
+        "help": "API base URL (change only for self-hosted instances)"
+      }
+    ],
+    "test": {
+      "url": "{{ifempty(parameters.baseUrl, 'https://apix.docdigitizer.com/sync')}}/",
+      "method": "GET",
+      "response": {
+        "valid": "{{body === 'I am alive'}}"
+      }
+    }
+  },
+  "headers": {
+    "X-API-Key": "{{connection.apiKey}}"
+  }
+}

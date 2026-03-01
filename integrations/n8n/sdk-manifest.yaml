@@ -1,0 +1,17 @@
+sdk:
+  name: n8n-nodes-docdigitizer
+  language: typescript
+  version: "0.1.0"
+  api_version: "1.0.0"
+  type: integration
+  framework: n8n
+
+operations:
+  - operationId: processDocument
+    resource: document
+    operation: process
+    description: Upload and process a PDF document via n8n node
+  - operationId: checkHealth
+    resource: health
+    operation: check
+    description: Check API availability via n8n node

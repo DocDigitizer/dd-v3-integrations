@@ -1,0 +1,15 @@
+sdk:
+  name: make-docdigitizer
+  language: json
+  version: "0.1.0"
+  api_version: "1.0.0"
+  type: integration
+  framework: make
+
+operations:
+  - operationId: processDocument
+    module: processDocument
+    description: Upload and process a PDF document via Make action module
+  - operationId: checkHealth
+    module: healthCheck
+    description: Check API availability via Make action module

@@ -1,0 +1,50 @@
+{
+  "label": "Process Document",
+  "description": "Upload and process a PDF document — returns document type, confidence, country, and extracted fields.",
+  "type": "action",
+  "connection": "common",
+  "parameters": [
+    {
+      "name": "file",
+      "type": "buffer",
+      "label": "File",
+      "required": true,
+      "help": "The PDF file to process"
+    },
+    {
+      "name": "fileName",
+      "type": "text",
+      "label": "File Name",
+      "required": false,
+      "default": "document.pdf",
+      "help": "Name of the file being uploaded"
+    },
+    {
+      "name": "pipeline",
+      "type": "text",
+      "label": "Pipeline",
+      "required": false,
+      "help": "Pipeline name to use for processing (optional)"
+    }
+  ],
+  "url": "{{ifempty(connection.baseUrl, 'https://apix.docdigitizer.com/sync')}}/",
+  "method": "POST",
+  "type_content": "multipart/form-data",
+  "body": {
+    "files": "{{parameters.file}}",
+    "id": "{{uuid()}}",
+    "contextID": "{{uuid()}}",
+    "pipelineIdentifier": "{{parameters.pipeline}}"
+  },
+  "headers": {
+    "X-API-Key": "{{connection.apiKey}}"
+  },
+  "response": {
+    "output": {
+      "state": "{{body.stateText}}",
+      "traceId": "{{body.traceId}}",
+      "numPages": "{{body.numberPages}}",
+      "extractions": "{{body.output.extractions}}"
+    }
+  }
+}

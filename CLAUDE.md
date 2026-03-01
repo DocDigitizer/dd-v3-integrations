@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Official SDKs and integrations for the DocDigitizer Document Processing API. DocDigitizer provides intelligent document processing: upload PDFs and get structured data back (OCR, classification, extraction) for invoices, receipts, contracts, CVs, ID documents, and bank statements.
 
+## Mandatory Policies
+
+- **Always update documentation** after implementing or publishing features. This includes: `README.md` (root), `CLAUDE.md`, `docs/INTEGRATION-PLAN.md`, and any relevant per-package READMEs. Documentation updates must be part of the same commit or follow-up commit — never skip this step.
+
 ## Key Architecture Concepts
 
 **OpenAPI spec is the single source of truth**: `openapi/sync.openapi.yaml` (copied from sync2025). All SDKs are validated against this spec via contract tests.
@@ -30,6 +34,9 @@ Official SDKs and integrations for the DocDigitizer Document Processing API. Doc
 | `@docdigitizer/langchain` | npm | TypeScript |
 | `docdigitizer-ai` | npm | TypeScript |
 | `@docdigitizer/mcp-server` | npm | TypeScript |
+| `n8n-nodes-docdigitizer` | npm | TypeScript |
+| `zapier-docdigitizer` | Zapier Platform | JavaScript |
+| `make-docdigitizer` | Make Developer Hub | JSON |
 
 ## Build & Test Commands
 
@@ -96,6 +103,24 @@ cd integrations/mcp-server
 npm install && npm run build
 ```
 
+### n8n Node
+```bash
+cd integrations/n8n
+npm install && npm run build && npm test
+```
+
+### Zapier
+```bash
+cd integrations/zapier
+npm install && npm test                        # jest
+```
+
+### Make (Integromat)
+```bash
+cd integrations/make
+npm install && npm test                        # node --test (contract tests)
+```
+
 ## Utility Scripts
 
 ```bash
@@ -111,10 +136,12 @@ python tests/validate_manifests.py             # Validate all SDK manifests
 **Test workflows** (triggered on path changes):
 - `test-python-sdk.yml`, `test-node-sdk.yml`, `test-go-sdk.yml`, `test-csharp-sdk.yml`, `test-rust-sdk.yml`
 - `test-langchain-python.yml`, `test-langchain-js.yml`, `test-llamaindex.yml`, `test-vercel-ai.yml`
+- `test-n8n.yml`, `test-zapier.yml`, `test-make.yml`
 
 **Publish workflows** (triggered on tags):
 - `python-v*` → PyPI, `node-v*` → npm, `go-v*` → GitHub Release, `csharp-v*` → NuGet, `rust-v*` → crates.io
 - `langchain-python-v*` → PyPI, `langchain-js-v*` → npm, `llamaindex-v*` → PyPI, `vercel-ai-v*` → npm
+- `n8n-v*` → npm
 
 **Other**: `spec-drift-check.yml` — weekly drift detection
 

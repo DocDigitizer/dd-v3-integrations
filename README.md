@@ -34,11 +34,11 @@ DocDigitizer provides intelligent document processing — upload PDFs and get st
 
 ### Workflow Automation
 
-| Integration | Platform | Status |
-|-------------|----------|--------|
-| [n8n](./integrations/n8n) | n8n | Planned |
-| [Zapier](./integrations/zapier) | Zapier | Planned |
-| [Make](./integrations/make) | Make (Integromat) | Planned |
+| Integration | Package | Install | Version |
+|-------------|---------|---------|---------|
+| [n8n](./integrations/n8n) | [`n8n-nodes-docdigitizer`](https://www.npmjs.com/package/n8n-nodes-docdigitizer) | `npm install n8n-nodes-docdigitizer` | v0.1.0 |
+| [Zapier](./integrations/zapier) | `zapier-docdigitizer` | [Zapier Developer Platform](https://platform.zapier.com/) | v0.1.0 |
+| [Make](./integrations/make) | — | [Setup guide](./integrations/make/README.md) | v0.1.0 |
 
 ## Quick Start
 
@@ -158,7 +158,10 @@ dd-v3-integrations/
 │   ├── llamaindex/             # pip install llama-index-readers-docdigitizer
 │   ├── vercel-ai/              # npm install docdigitizer-ai
 │   ├── mcp-server/             # npx @docdigitizer/mcp-server
-│   └── claude-plugin/          # Claude Code plugin
+│   ├── claude-plugin/          # Claude Code plugin
+│   ├── n8n/                    # npm install n8n-nodes-docdigitizer
+│   ├── zapier/                 # Zapier Developer Platform
+│   └── make/                   # Make Developer Hub
 ├── scripts/
 │   ├── sync_openapi.py         # Pull latest spec from upstream
 │   ├── validate_sdk.py         # Validate SDK against spec

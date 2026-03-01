@@ -1,0 +1,20 @@
+name: Test Make Integration
+
+on:
+  push:
+    paths: ['integrations/make/**']
+  pull_request:
+    paths: ['integrations/make/**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+        working-directory: integrations/make
+      - run: npm test
+        working-directory: integrations/make

@@ -1,0 +1,13 @@
+{
+  "baseUrl": "https://apix.docdigitizer.com/sync",
+  "label": "DocDigitizer",
+  "description": "Intelligent document processing — upload PDFs and get structured data back with OCR, classification, and extraction.",
+  "version": "1.0.0",
+  "language": "en",
+  "audience": "public",
+  "categories": ["document-management", "data-extraction"],
+  "countries": ["global"],
+  "log": {
+    "sanitize": ["apiKey"]
+  }
+}

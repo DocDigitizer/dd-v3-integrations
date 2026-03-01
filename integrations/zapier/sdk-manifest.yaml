@@ -1,0 +1,15 @@
+sdk:
+  name: zapier-docdigitizer
+  language: javascript
+  version: "0.1.0"
+  api_version: "1.0.0"
+  type: integration
+  framework: zapier
+
+operations:
+  - operationId: processDocument
+    action: process_document
+    description: Upload and process a PDF document via Zapier action
+  - operationId: checkHealth
+    action: health_check
+    description: Check API availability via Zapier search

@@ -1,0 +1,23 @@
+name: Test Zapier Integration
+
+on:
+  push:
+    paths: ['integrations/zapier/**']
+  pull_request:
+    paths: ['integrations/zapier/**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+        working-directory: integrations/zapier
+      - run: npm test
+        working-directory: integrations/zapier

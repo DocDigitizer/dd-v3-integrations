@@ -15,9 +15,9 @@
 | **2** | Vercel AI SDK (`docdigitizer-ai`) | **Published** v0.1.0 on npm |
 | **3** | MCP Server (`@docdigitizer/mcp-server`) | **Published** v0.1.0 on npm |
 | **3** | Claude Plugin | **Published** v0.1.0 |
-| **4** | n8n Node | Planned |
-| **4** | Zapier | Planned |
-| **4** | Make (Integromat) | Planned |
+| **4** | n8n Node (`n8n-nodes-docdigitizer`) | **Published** v0.1.0 on npm |
+| **4** | Zapier (`zapier-docdigitizer`) | **Published** v0.1.0 |
+| **4** | Make (Integromat) | **Published** v0.1.0 |
 
 ---
 
@@ -469,9 +469,9 @@ integrations/zapier/
 | **2** | Vercel AI SDK | Medium | Node.js SDK | **Done** |
 | **3** | MCP Server | High | Node.js SDK | **Done** |
 | **3** | Claude Plugin | High | MCP Server | **Done** |
-| **4** | n8n Node | Medium | Node.js SDK | Planned |
-| **4** | Zapier | Medium | None | Planned |
-| **4** | Make | Medium | None | Planned |
+| **4** | n8n Node | Medium | Node.js SDK | **Done** |
+| **4** | Zapier | Medium | Node.js SDK | **Done** |
+| **4** | Make | Medium | None | **Done** |
 
 ## Design Principles
 

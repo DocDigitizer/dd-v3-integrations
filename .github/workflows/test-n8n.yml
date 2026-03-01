@@ -1,0 +1,25 @@
+name: Test n8n Node
+
+on:
+  push:
+    paths: ['integrations/n8n/**']
+  pull_request:
+    paths: ['integrations/n8n/**']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18, 20]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+        working-directory: integrations/n8n
+      - run: npm run build
+        working-directory: integrations/n8n
+      - run: npm test
+        working-directory: integrations/n8n

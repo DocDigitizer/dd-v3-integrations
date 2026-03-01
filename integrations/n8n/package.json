@@ -1,0 +1,58 @@
+{
+  "name": "n8n-nodes-docdigitizer",
+  "version": "0.1.0",
+  "description": "n8n community node for the DocDigitizer document processing API",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/nodes/DocDigitizer/DocDigitizer.node.js",
+  "types": "dist/nodes/DocDigitizer/DocDigitizer.node.d.ts",
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/DocDigitizerApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/DocDigitizer/DocDigitizer.node.js"
+    ]
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "docdigitizer": ">=0.1.0"
+  },
+  "devDependencies": {
+    "n8n-workflow": "^1.0.0",
+    "@types/node": "^18.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^3.0.0",
+    "yaml": "^2.7.0"
+  },
+  "author": {
+    "name": "DocDigitizer",
+    "email": "support@docdigitizer.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DocDigitizer/dd-v3-integrations",
+    "directory": "integrations/n8n"
+  },
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "docdigitizer",
+    "ocr",
+    "pdf",
+    "document-processing",
+    "extraction"
+  ]
+}

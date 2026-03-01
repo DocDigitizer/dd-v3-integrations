@@ -1,0 +1,18 @@
+{
+  "label": "Health Check",
+  "description": "Check if the DocDigitizer API is healthy and responsive.",
+  "type": "action",
+  "connection": "common",
+  "parameters": [],
+  "url": "{{ifempty(connection.baseUrl, 'https://apix.docdigitizer.com/sync')}}/",
+  "method": "GET",
+  "headers": {
+    "X-API-Key": "{{connection.apiKey}}"
+  },
+  "response": {
+    "output": {
+      "status": "alive",
+      "message": "{{body}}"
+    }
+  }
+}
