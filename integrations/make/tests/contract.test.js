@@ -55,7 +55,7 @@ describe("Contract Tests", () => {
   });
 
   it("manifest api_version is correct", () => {
-    assert.strictEqual(manifest.sdk.api_version, "1.0.0");
+    assert.strictEqual(manifest.sdk.api_version, "1.1.0");
   });
 
   it("manifest type is integration", () => {
