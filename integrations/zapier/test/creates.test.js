@@ -15,7 +15,7 @@ const processDocument = require("../creates/process_document");
 const createBundle = (overrides = {}) => ({
   authData: {
     apiKey: "test-key",
-    baseUrl: "https://apix.docdigitizer.com/sync",
+    baseUrl: "https://api.docdigitizer.com/v3/docingester",
   },
   inputData: {
     file: "https://example.com/invoice.pdf",

@@ -4,7 +4,7 @@
   "type": "action",
   "connection": "common",
   "parameters": [],
-  "url": "{{ifempty(connection.baseUrl, 'https://apix.docdigitizer.com/sync')}}/",
+  "url": "{{ifempty(connection.baseUrl, 'https://api.docdigitizer.com/v3/docingester')}}/",
   "method": "GET",
   "headers": {
     "X-API-Key": "{{connection.apiKey}}"

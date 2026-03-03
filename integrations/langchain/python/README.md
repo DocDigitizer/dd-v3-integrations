@@ -2,6 +2,8 @@
 
 LangChain document loader for the [DocDigitizer](https://docdigitizer.com) document processing API.
 
+> **v0.1.x is deprecated.** Upgrade to v0.2.0+ for the new API endpoint. The previous endpoint (`https://apix.docdigitizer.com/sync`) will be removed in a future release.
+
 ## Installation
 
 ```bash
@@ -39,7 +41,7 @@ vectorstore = FAISS.from_documents(chunks, OpenAIEmbeddings())
 | Parameter | Environment Variable | Default |
 |-----------|---------------------|---------|
 | `api_key` | `DOCDIGITIZER_API_KEY` | — |
-| `base_url` | `DOCDIGITIZER_BASE_URL` | `https://apix.docdigitizer.com/sync` |
+| `base_url` | `DOCDIGITIZER_BASE_URL` | `https://api.docdigitizer.com/v3/docingester` |
 | `timeout` | `DOCDIGITIZER_TIMEOUT` | `300` |
 | `max_retries` | — | `3` |
 | `pipeline` | — | `None` |

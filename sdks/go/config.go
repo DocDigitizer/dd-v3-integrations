@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	DefaultBaseURL    = "https://apix.docdigitizer.com/sync"
+	DefaultBaseURL    = "https://api.docdigitizer.com/v3/docingester"
 	DefaultTimeout    = 5 * time.Minute
 	DefaultMaxRetries = 3
 )

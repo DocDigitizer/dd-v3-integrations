@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-docdigitizer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "n8n community node for the DocDigitizer document processing API",
   "license": "MIT",
   "type": "module",
@@ -28,7 +28,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "docdigitizer": ">=0.1.0"
+    "docdigitizer": ">=0.2.0"
   },
   "devDependencies": {
     "n8n-workflow": "^1.0.0",

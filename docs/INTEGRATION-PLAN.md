@@ -4,20 +4,20 @@
 
 | Phase | Item | Status |
 |-------|------|--------|
-| **1** | Python SDK (`docdigitizer`) | **Published** v0.1.0 on PyPI |
-| **1** | Node.js SDK (`docdigitizer`) | **Published** v0.1.0 on npm |
-| **1** | Go SDK | **Published** v0.1.0 on GitHub |
-| **1** | C# SDK (`DocDigitizer`) | **Published** v0.1.0 on NuGet |
-| **1** | Rust SDK (`docdigitizer`) | **Published** v0.1.0 on crates.io |
-| **2** | LangChain Python (`langchain-docdigitizer`) | **Published** v0.1.0 on PyPI |
-| **2** | LangChain JS (`@docdigitizer/langchain`) | **Published** v0.1.0 on npm |
-| **2** | LlamaIndex (`llama-index-readers-docdigitizer`) | **Published** v0.1.0 on PyPI |
-| **2** | Vercel AI SDK (`docdigitizer-ai`) | **Published** v0.1.0 on npm |
-| **3** | MCP Server (`@docdigitizer/mcp-server`) | **Published** v0.1.0 on npm |
-| **3** | Claude Plugin | **Published** v0.1.0 |
-| **4** | n8n Node (`n8n-nodes-docdigitizer`) | **Published** v0.1.0 on npm |
-| **4** | Zapier (`zapier-docdigitizer`) | **Published** v0.1.0 |
-| **4** | Make (Integromat) | **Published** v0.1.0 |
+| **1** | Python SDK (`docdigitizer`) | **Published** v0.2.0 on PyPI (v0.1.0 deprecated) |
+| **1** | Node.js SDK (`docdigitizer`) | **Published** v0.2.0 on npm (v0.1.0 deprecated) |
+| **1** | Go SDK | **Published** v0.2.0 on GitHub (v0.1.0 deprecated) |
+| **1** | C# SDK (`DocDigitizer`) | **Published** v0.2.0 on NuGet (v0.1.0 deprecated) |
+| **1** | Rust SDK (`docdigitizer`) | **Published** v0.2.0 on crates.io (v0.1.0 deprecated) |
+| **2** | LangChain Python (`langchain-docdigitizer`) | **Published** v0.2.0 on PyPI (v0.1.0 deprecated) |
+| **2** | LangChain JS (`@docdigitizer/langchain`) | **Published** v0.2.0 on npm (v0.1.0 deprecated) |
+| **2** | LlamaIndex (`llama-index-readers-docdigitizer`) | **Published** v0.2.0 on PyPI (v0.1.0 deprecated) |
+| **2** | Vercel AI SDK (`docdigitizer-ai`) | **Published** v0.2.0 on npm (v0.1.0 deprecated) |
+| **3** | MCP Server (`@docdigitizer/mcp-server`) | **Published** v0.2.0 on npm (v0.1.0 deprecated) |
+| **3** | Claude Plugin | **Published** v0.2.0 (v0.1.0 deprecated) |
+| **4** | n8n Node (`n8n-nodes-docdigitizer`) | **Published** v0.2.0 on npm (v0.1.0 deprecated) |
+| **4** | Zapier (`zapier-docdigitizer`) | **Published** v0.2.0 (v0.1.0 deprecated) |
+| **4** | Make (Integromat) | **Published** v0.2.0 (v0.1.0 deprecated) |
 
 ---
 

@@ -2,6 +2,8 @@
 
 Official Node.js/TypeScript SDK for the [DocDigitizer](https://www.docdigitizer.com) document processing API.
 
+> **v0.1.x is deprecated.** Upgrade to v0.2.0+ for the new API endpoint. The previous endpoint (`https://apix.docdigitizer.com/sync`) will be removed in a future release.
+
 ## Installation
 
 ```bash
@@ -35,14 +37,14 @@ const dd = new DocDigitizer('your-api-key');
 // Option 2: Pass options object
 const dd = new DocDigitizer({
   apiKey: 'your-api-key',
-  baseUrl: 'https://apix.docdigitizer.com/sync', // default
+  baseUrl: 'https://api.docdigitizer.com/v3/docingester', // default
   timeout: 300_000,  // 5 minutes (default)
   maxRetries: 3,     // default
 });
 
 // Option 3: Environment variables
 // DOCDIGITIZER_API_KEY=your-api-key
-// DOCDIGITIZER_BASE_URL=https://apix.docdigitizer.com/sync (optional)
+// DOCDIGITIZER_BASE_URL=https://api.docdigitizer.com/v3/docingester (optional)
 // DOCDIGITIZER_TIMEOUT=300000 (optional)
 const dd = new DocDigitizer();
 ```

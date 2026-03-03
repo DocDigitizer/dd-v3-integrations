@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://apix.docdigitizer.com/sync",
+  "baseUrl": "https://api.docdigitizer.com/v3/docingester",
   "label": "DocDigitizer",
   "description": "Intelligent document processing — upload PDFs and get structured data back with OCR, classification, and extraction.",
   "version": "1.0.0",

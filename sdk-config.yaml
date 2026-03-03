@@ -4,7 +4,7 @@
 api:
   name: DocDigitizer
   version: "1.0.0"
-  base_url: "https://apix.docdigitizer.com/sync"
+  base_url: "https://api.docdigitizer.com/v3/docingester"
   auth:
     type: api_key
     header: "X-API-Key"

@@ -19,7 +19,7 @@ function createMockExecuteFunctions(overrides: Record<string, unknown> = {}) {
   const params = (overrides.params ?? {}) as Record<string, unknown>;
   const credentials = (overrides.credentials ?? {
     apiKey: "test-key",
-    baseUrl: "https://apix.docdigitizer.com/sync",
+    baseUrl: "https://api.docdigitizer.com/v3/docingester",
   }) as Record<string, unknown>;
 
   return {

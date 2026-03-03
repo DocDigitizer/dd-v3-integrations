@@ -8,11 +8,11 @@ DocDigitizer provides intelligent document processing — upload PDFs and get st
 
 | SDK | Language | Package | Install | Version |
 |-----|----------|---------|---------|---------|
-| [Python](./sdks/python) | Python 3.8+ | [`docdigitizer`](https://pypi.org/project/docdigitizer/) | `pip install docdigitizer` | v0.1.0 |
-| [Node.js](./sdks/node) | TypeScript/JS | [`docdigitizer`](https://www.npmjs.com/package/docdigitizer) | `npm install docdigitizer` | v0.1.0 |
-| [Go](./sdks/go) | Go 1.21+ | [`docdigitizer`](https://github.com/DocDigitizer/dd-v3-integrations/tree/main/sdks/go) | `go get github.com/DocDigitizer/dd-v3-integrations/sdks/go` | v0.1.0 |
-| [C#](./sdks/csharp) | .NET 6+ | [`DocDigitizer`](https://www.nuget.org/packages/DocDigitizer) | `dotnet add package DocDigitizer` | v0.1.0 |
-| [Rust](./sdks/rust) | Rust | [`docdigitizer`](https://crates.io/crates/docdigitizer) | `cargo add docdigitizer` | v0.1.0 |
+| [Python](./sdks/python) | Python 3.8+ | [`docdigitizer`](https://pypi.org/project/docdigitizer/) | `pip install docdigitizer` | v0.2.0 |
+| [Node.js](./sdks/node) | TypeScript/JS | [`docdigitizer`](https://www.npmjs.com/package/docdigitizer) | `npm install docdigitizer` | v0.2.0 |
+| [Go](./sdks/go) | Go 1.21+ | [`docdigitizer`](https://github.com/DocDigitizer/dd-v3-integrations/tree/main/sdks/go) | `go get github.com/DocDigitizer/dd-v3-integrations/sdks/go` | v0.2.0 |
+| [C#](./sdks/csharp) | .NET 6+ | [`DocDigitizer`](https://www.nuget.org/packages/DocDigitizer) | `dotnet add package DocDigitizer` | v0.2.0 |
+| [Rust](./sdks/rust) | Rust | [`docdigitizer`](https://crates.io/crates/docdigitizer) | `cargo add docdigitizer` | v0.2.0 |
 
 ## Integrations
 
@@ -20,25 +20,31 @@ DocDigitizer provides intelligent document processing — upload PDFs and get st
 
 | Integration | Package | Install | Version |
 |-------------|---------|---------|---------|
-| [LangChain Python](./integrations/langchain/python) | [`langchain-docdigitizer`](https://pypi.org/project/langchain-docdigitizer/) | `pip install langchain-docdigitizer` | v0.1.0 |
-| [LangChain JS](./integrations/langchain/js) | [`@docdigitizer/langchain`](https://www.npmjs.com/package/@docdigitizer/langchain) | `npm install @docdigitizer/langchain` | v0.1.0 |
-| [LlamaIndex](./integrations/llamaindex) | [`llama-index-readers-docdigitizer`](https://pypi.org/project/llama-index-readers-docdigitizer/) | `pip install llama-index-readers-docdigitizer` | v0.1.0 |
-| [Vercel AI SDK](./integrations/vercel-ai) | [`docdigitizer-ai`](https://www.npmjs.com/package/docdigitizer-ai) | `npm install docdigitizer-ai` | v0.1.0 |
+| [LangChain Python](./integrations/langchain/python) | [`langchain-docdigitizer`](https://pypi.org/project/langchain-docdigitizer/) | `pip install langchain-docdigitizer` | v0.2.0 |
+| [LangChain JS](./integrations/langchain/js) | [`@docdigitizer/langchain`](https://www.npmjs.com/package/@docdigitizer/langchain) | `npm install @docdigitizer/langchain` | v0.2.0 |
+| [LlamaIndex](./integrations/llamaindex) | [`llama-index-readers-docdigitizer`](https://pypi.org/project/llama-index-readers-docdigitizer/) | `pip install llama-index-readers-docdigitizer` | v0.2.0 |
+| [Vercel AI SDK](./integrations/vercel-ai) | [`docdigitizer-ai`](https://www.npmjs.com/package/docdigitizer-ai) | `npm install docdigitizer-ai` | v0.2.0 |
 
 ### AI Agents
 
 | Integration | Package | Install | Version |
 |-------------|---------|---------|---------|
-| [MCP Server](./integrations/mcp-server) | [`@docdigitizer/mcp-server`](https://www.npmjs.com/package/@docdigitizer/mcp-server) | `npx @docdigitizer/mcp-server` | v0.1.0 |
-| [Claude Plugin](./integrations/claude-plugin) | — | [Install guide](./integrations/claude-plugin/README.md) | v0.1.0 |
+| [MCP Server](./integrations/mcp-server) | [`@docdigitizer/mcp-server`](https://www.npmjs.com/package/@docdigitizer/mcp-server) | `npx @docdigitizer/mcp-server` | v0.2.0 |
+| [Claude Plugin](./integrations/claude-plugin) | — | [Install guide](./integrations/claude-plugin/README.md) | v0.2.0 |
 
 ### Workflow Automation
 
 | Integration | Package | Install | Version |
 |-------------|---------|---------|---------|
-| [n8n](./integrations/n8n) | [`n8n-nodes-docdigitizer`](https://www.npmjs.com/package/n8n-nodes-docdigitizer) | `npm install n8n-nodes-docdigitizer` | v0.1.0 |
-| [Zapier](./integrations/zapier) | `zapier-docdigitizer` | [Zapier Developer Platform](https://platform.zapier.com/) | v0.1.0 |
-| [Make](./integrations/make) | — | [Setup guide](./integrations/make/README.md) | v0.1.0 |
+| [n8n](./integrations/n8n) | [`n8n-nodes-docdigitizer`](https://www.npmjs.com/package/n8n-nodes-docdigitizer) | `npm install n8n-nodes-docdigitizer` | v0.2.0 |
+| [Zapier](./integrations/zapier) | `zapier-docdigitizer` | [Zapier Developer Platform](https://platform.zapier.com/) | v0.2.0 |
+| [Make](./integrations/make) | — | [Setup guide](./integrations/make/README.md) | v0.2.0 |
+
+## Deprecation Notice
+
+> **v0.1.x is deprecated.** The previous API endpoint (`https://apix.docdigitizer.com/sync`) has been replaced by the new base URL `https://api.docdigitizer.com/v3/docingester` (process endpoint: `POST /extract`). All SDKs and integrations v0.1.x point to the old endpoint and should be upgraded to v0.2.0+. The legacy endpoint will be removed in a future release.
+>
+> **Action required:** Update all packages to v0.2.0 or later.
 
 ## Quick Start
 
@@ -119,7 +125,7 @@ const { text } = await generateText({
 
 ### cURL
 ```bash
-curl -X POST https://apix.docdigitizer.com/sync \
+curl -X POST https://api.docdigitizer.com/v3/docingester/extract \
   -H "X-API-Key: your-api-key" \
   -F "files=@invoice.pdf" \
   -F "id=$(uuidgen)" \
@@ -128,7 +134,12 @@ curl -X POST https://apix.docdigitizer.com/sync \
 
 ## API Overview
 
-**Base URL:** `https://apix.docdigitizer.com/sync`
+**Base URL:** `https://api.docdigitizer.com/v3/docingester`
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/extract` | POST | Process a PDF document |
+| `/` | GET | Health check |
 
 **Authentication:** `X-API-Key` header
 

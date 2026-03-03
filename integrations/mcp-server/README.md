@@ -2,6 +2,8 @@
 
 MCP (Model Context Protocol) server for the DocDigitizer document processing API. Enables Claude Desktop and Claude Code to process PDFs and extract structured data directly.
 
+> **v0.1.x is deprecated.** Upgrade to v0.2.0+ for the new API endpoint. The previous endpoint (`https://apix.docdigitizer.com/sync`) will be removed in a future release.
+
 ## Quick Start
 
 ### Claude Desktop
@@ -75,7 +77,7 @@ Upload and process a PDF document. Extracts structured data from invoices, recei
 | Environment Variable | Required | Default | Description |
 |---------------------|----------|---------|-------------|
 | `DOCDIGITIZER_API_KEY` | Yes | — | Your DocDigitizer API key |
-| `DOCDIGITIZER_BASE_URL` | No | `https://apix.docdigitizer.com/sync` | API base URL |
+| `DOCDIGITIZER_BASE_URL` | No | `https://api.docdigitizer.com/v3/docingester` | API base URL |
 | `DOCDIGITIZER_TIMEOUT` | No | `300000` (5 min) | Request timeout in ms |
 
 ## Development

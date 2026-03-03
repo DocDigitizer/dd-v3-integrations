@@ -2,6 +2,8 @@
 
 Official Rust SDK for the [DocDigitizer](https://www.docdigitizer.com) document processing API.
 
+> **v0.1.x is deprecated.** Upgrade to v0.2.0+ for the new API endpoint. The previous endpoint (`https://apix.docdigitizer.com/sync`) will be removed in a future release.
+
 ## Installation
 
 Add to your `Cargo.toml`:
@@ -45,7 +47,7 @@ let dd = DocDigitizer::new("your-api-key");
 
 // Option 2: With config
 let config = Config::new("your-api-key")
-    .base_url("https://apix.docdigitizer.com/sync")
+    .base_url("https://api.docdigitizer.com/v3/docingester")
     .timeout(Duration::from_secs(300))
     .max_retries(3);
 let dd = DocDigitizer::with_config(config);

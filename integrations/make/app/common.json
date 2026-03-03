@@ -15,12 +15,12 @@
         "type": "text",
         "label": "Base URL",
         "required": false,
-        "default": "https://apix.docdigitizer.com/sync",
+        "default": "https://api.docdigitizer.com/v3/docingester",
         "help": "API base URL (change only for self-hosted instances)"
       }
     ],
     "test": {
-      "url": "{{ifempty(parameters.baseUrl, 'https://apix.docdigitizer.com/sync')}}/",
+      "url": "{{ifempty(parameters.baseUrl, 'https://api.docdigitizer.com/v3/docingester')}}/",
       "method": "GET",
       "response": {
         "valid": "{{body === 'I am alive'}}"

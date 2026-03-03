@@ -24,7 +24,7 @@ module.exports = {
       label: "Base URL",
       type: "string",
       required: false,
-      default: "https://apix.docdigitizer.com/sync",
+      default: "https://api.docdigitizer.com/v3/docingester",
       helpText: "API base URL (change only for self-hosted instances)",
     },
   ],

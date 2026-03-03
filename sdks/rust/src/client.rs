@@ -167,7 +167,7 @@ impl DocDigitizer {
                 form = form.text("requestToken", t.clone());
             }
 
-            let url = format!("{}/", self.config.base_url);
+            let url = format!("{}/extract", self.config.base_url);
             let response = self
                 .http
                 .post(&url)

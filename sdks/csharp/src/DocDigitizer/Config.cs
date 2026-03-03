@@ -5,7 +5,7 @@ namespace DocDigitizer;
 /// </summary>
 public class ClientConfig
 {
-    public const string DefaultBaseUrl = "https://apix.docdigitizer.com/sync";
+    public const string DefaultBaseUrl = "https://api.docdigitizer.com/v3/docingester";
     public static readonly TimeSpan DefaultTimeout = TimeSpan.FromMinutes(5);
     public const int DefaultMaxRetries = 3;
 

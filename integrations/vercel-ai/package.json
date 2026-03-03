@@ -1,6 +1,6 @@
 {
   "name": "docdigitizer-ai",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Vercel AI SDK tools for the DocDigitizer document processing API",
   "license": "MIT",
   "type": "module",
@@ -25,7 +25,7 @@
     "node": ">=18"
   },
   "dependencies": {
-    "docdigitizer": ">=0.1.0",
+    "docdigitizer": ">=0.2.0",
     "zod": ">=3.22.0"
   },
   "peerDependencies": {

@@ -23,7 +23,7 @@ class AsyncDocDigitizer:
 
     Args:
         api_key: Your DocDigitizer API key. Falls back to DOCDIGITIZER_API_KEY env var.
-        base_url: API base URL. Defaults to https://apix.docdigitizer.com/sync.
+        base_url: API base URL. Defaults to https://api.docdigitizer.com/v3/docingester.
         timeout: Request timeout in seconds (default 300).
         max_retries: Max retries on 5xx/429 errors (default 3).
     """
@@ -88,7 +88,7 @@ class AsyncDocDigitizer:
 
         status, body, dd_headers = await self._transport.request(
             "POST",
-            "/",
+            "/extract",
             data=data,
             files={"files": file_tuple},
         )

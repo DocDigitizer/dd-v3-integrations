@@ -4,6 +4,8 @@
 
 Process PDF documents and get structured data back — OCR, classification, and extraction for invoices, receipts, contracts, CVs, ID documents, and bank statements.
 
+> **v0.1.x is deprecated.** Upgrade to v0.2.0+ for the new API endpoint. The previous endpoint (`https://apix.docdigitizer.com/sync`) will be removed in a future release.
+
 ## Installation
 
 ### Via n8n Community Nodes
@@ -81,7 +83,7 @@ The node outputs JSON with the following structure:
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | API Key | Your DocDigitizer API key | (required) |
-| Base URL | API endpoint | `https://apix.docdigitizer.com/sync` |
+| Base URL | API endpoint | `https://api.docdigitizer.com/v3/docingester` |
 
 Environment variables are also supported via the DocDigitizer SDK:
 - `DOCDIGITIZER_API_KEY`

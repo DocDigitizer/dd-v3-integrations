@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 from typing import Optional
 
-DEFAULT_BASE_URL = "https://apix.docdigitizer.com/sync"
+DEFAULT_BASE_URL = "https://api.docdigitizer.com/v3/docingester"
 DEFAULT_TIMEOUT = 300.0  # seconds
 DEFAULT_MAX_RETRIES = 3
 

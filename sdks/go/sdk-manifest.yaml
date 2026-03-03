@@ -5,7 +5,7 @@
 sdk:
   name: docdigitizer
   language: go
-  version: "0.1.0"
+  version: "0.2.0"
   api_version: "1.0.0"
   min_go: "1.21"
   package: "github.com/DocDigitizer/dd-v3-integrations/sdks/go"

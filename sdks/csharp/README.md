@@ -2,6 +2,8 @@
 
 Official C# SDK for the [DocDigitizer](https://www.docdigitizer.com) document processing API.
 
+> **v0.1.x is deprecated.** Upgrade to v0.2.0+ for the new API endpoint. The previous endpoint (`https://apix.docdigitizer.com/sync`) will be removed in a future release.
+
 ## Installation
 
 ```bash
@@ -34,7 +36,7 @@ var dd = new DocDigitizerClient("your-api-key");
 
 // Option 2: With options
 var dd = new DocDigitizerClient("your-api-key",
-    baseUrl: "https://apix.docdigitizer.com/sync",
+    baseUrl: "https://api.docdigitizer.com/v3/docingester",
     timeout: TimeSpan.FromMinutes(5),
     maxRetries: 3
 );

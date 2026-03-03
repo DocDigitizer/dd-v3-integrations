@@ -197,7 +197,7 @@ func (c *Client) doRequest(
 	}
 	writer.Close()
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, c.config.BaseURL+"/", &body)
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, c.config.BaseURL+"/extract", &body)
 	if err != nil {
 		return nil, 0, fmt.Errorf("docdigitizer: failed to create request: %w", err)
 	}

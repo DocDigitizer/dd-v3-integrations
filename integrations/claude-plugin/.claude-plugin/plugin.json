@@ -1,7 +1,7 @@
 {
   "name": "docdigitizer",
   "description": "Process PDF documents with DocDigitizer — extract structured data from invoices, receipts, contracts, CVs, IDs, and bank statements",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "DocDigitizer",
     "email": "support@docdigitizer.com"

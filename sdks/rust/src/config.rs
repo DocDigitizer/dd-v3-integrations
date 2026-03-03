@@ -1,7 +1,7 @@
 use std::env;
 use std::time::Duration;
 
-const DEFAULT_BASE_URL: &str = "https://apix.docdigitizer.com/sync";
+const DEFAULT_BASE_URL: &str = "https://api.docdigitizer.com/v3/docingester";
 const DEFAULT_TIMEOUT_MS: u64 = 300_000; // 5 minutes
 const DEFAULT_MAX_RETRIES: u32 = 3;
 

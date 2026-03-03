@@ -27,7 +27,7 @@
       "help": "Pipeline name to use for processing (optional)"
     }
   ],
-  "url": "{{ifempty(connection.baseUrl, 'https://apix.docdigitizer.com/sync')}}/",
+  "url": "{{ifempty(connection.baseUrl, 'https://api.docdigitizer.com/v3/docingester')}}/extract",
   "method": "POST",
   "type_content": "multipart/form-data",
   "body": {

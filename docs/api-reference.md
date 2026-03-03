@@ -69,14 +69,17 @@ Token payload:
 
 ## 1. Sync API (Primary Public API)
 
-**Base URL:** `https://apix.docdigitizer.com/sync`
+**Base URL:** `https://api.docdigitizer.com/v3/docingester`
+
+> **Note:** The previous endpoint `https://apix.docdigitizer.com/sync` is deprecated as of v0.2.0. Update all integrations to use the new URL.
+
 **Auth:** X-API-Key
 
 ### `GET /` — Health Check
 - **Auth:** None
 - **Response:** `200` → `"I am alive"` (text/plain)
 
-### `POST /` — Process Document
+### `POST /extract` — Process Document
 
 The primary endpoint. Upload a PDF and receive structured extraction results.
 
@@ -498,7 +501,7 @@ Query params for list: `page`, `pageSize`, `action`, `startDate`, `endDate`
 
 | Service | Base URL | Endpoints | Auth |
 |---------|----------|-----------|------|
-| Sync API | `apix.docdigitizer.com/sync` | 2 | X-API-Key |
+| Sync API | `api.docdigitizer.com/v3/docingester` | 2 | X-API-Key |
 | DocWorker | `docworker.europe-southwest1.run.app` | 5 | X-API-Key |
 | Classifier | `classifier.europe-southwest1.run.app` | 4 | X-API-Key |
 | Plugins | Internal (ports 5010-5021) | ~9 per plugin | Internal |

@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: DocDigitizer Sync API
-  version: 1.0.0
+  version: 1.1.0
   description: |
     Intelligent document processing API that transforms unstructured documents into structured,
     actionable data through OCR, AI-powered classification, and data extraction.
@@ -31,8 +31,10 @@ info:
     url: https://www.docdigitizer.com/legal-center/terms-of-use/
 
 servers:
+  - url: https://api.docdigitizer.com/v3/docingester
+    description: Production server (v0.2.0+)
   - url: https://apix.docdigitizer.com/sync
-    description: Production server
+    description: Legacy server (DEPRECATED — will be removed in a future release)
 
 security:
   - ApiKeyAuth: []
@@ -81,6 +83,7 @@ paths:
                 type: string
                 example: "Service unavailable"
 
+  /extract:
     post:
       operationId: processDocument
       summary: Process a PDF document

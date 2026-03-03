@@ -176,10 +176,15 @@ python tests/validate_manifests.py             # Validate all SDK manifests
 
 ## API Quick Reference
 
-**Base URL:** `https://apix.docdigitizer.com/sync`
+**Base URL:** `https://api.docdigitizer.com/v3/docingester`
 **Auth:** `X-API-Key` header
 **Config env vars:** `DOCDIGITIZER_API_KEY`, `DOCDIGITIZER_BASE_URL`, `DOCDIGITIZER_TIMEOUT`
 
-Primary endpoint: `POST /` with `multipart/form-data` (fields: `files`, `id`, `contextID`). Returns JSON with extractions containing `documentType`, `confidence`, `countryCode`, `extraction`.
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/extract` | POST | Process document (`multipart/form-data`: `files`, `id`, `contextID`) |
+| `/` | GET | Health check (no auth required, returns `"I am alive"`) |
 
-Health check: `GET /` returns `"I am alive"` (no auth required).
+## Deprecation Notice
+
+**v0.1.x is deprecated.** The previous API endpoint (`https://apix.docdigitizer.com/sync`) has been replaced. All SDKs and integrations must use v0.2.0+ which points to `https://api.docdigitizer.com/v3/docingester`.

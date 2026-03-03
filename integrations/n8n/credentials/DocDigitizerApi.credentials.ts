@@ -22,7 +22,7 @@ export class DocDigitizerApi implements ICredentialType {
       displayName: "Base URL",
       name: "baseUrl",
       type: "string",
-      default: "https://apix.docdigitizer.com/sync",
+      default: "https://api.docdigitizer.com/v3/docingester",
       description: "API base URL (change only for self-hosted instances)",
     },
   ];

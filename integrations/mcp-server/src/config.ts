@@ -4,7 +4,7 @@ export interface Config {
   timeout: number;
 }
 
-const DEFAULT_BASE_URL = "https://apix.docdigitizer.com/sync";
+const DEFAULT_BASE_URL = "https://api.docdigitizer.com/v3/docingester";
 const DEFAULT_TIMEOUT = 300_000; // 5 minutes
 
 export function loadConfig(): Config {

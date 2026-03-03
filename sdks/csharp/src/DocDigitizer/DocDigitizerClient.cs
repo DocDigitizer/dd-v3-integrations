@@ -114,7 +114,7 @@ public class DocDigitizerClient : IDisposable
             if (requestToken != null)
                 form.Add(new StringContent(requestToken), "requestToken");
 
-            using var request = new HttpRequestMessage(HttpMethod.Post, $"{_config.BaseUrl}/");
+            using var request = new HttpRequestMessage(HttpMethod.Post, $"{_config.BaseUrl}/extract");
             request.Headers.Add("X-API-Key", _config.ApiKey);
             request.Content = form;
 

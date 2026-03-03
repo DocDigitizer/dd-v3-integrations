@@ -37,7 +37,7 @@ describe("Authentication", () => {
     const bundle = {
       authData: {
         apiKey: "test-key",
-        baseUrl: "https://apix.docdigitizer.com/sync",
+        baseUrl: "https://api.docdigitizer.com/v3/docingester",
       },
     };
 
@@ -45,7 +45,7 @@ describe("Authentication", () => {
     expect(result.message).toBe("I am alive");
     expect(getClient).toHaveBeenCalledWith({
       apiKey: "test-key",
-      baseUrl: "https://apix.docdigitizer.com/sync",
+      baseUrl: "https://api.docdigitizer.com/v3/docingester",
     });
   });
 

@@ -60,7 +60,7 @@ export class ApiClient {
       form.append("requestToken", options.requestToken);
     }
 
-    const response = await fetch(`${this.config.baseUrl}/`, {
+    const response = await fetch(`${this.config.baseUrl}/extract`, {
       method: "POST",
       headers: { "X-API-Key": this.config.apiKey },
       body: form,

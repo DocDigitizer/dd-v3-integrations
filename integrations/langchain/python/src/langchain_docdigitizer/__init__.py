@@ -10,5 +10,5 @@ Usage::
 
 from langchain_docdigitizer.document_loader import DocDigitizerLoader
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __all__ = ["DocDigitizerLoader"]

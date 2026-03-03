@@ -1,7 +1,7 @@
 sdk:
   name: "@docdigitizer/mcp-server"
   language: typescript
-  version: "0.1.0"
+  version: "0.2.0"
   api_version: "1.0.0"
   min_node: "18"
   package: "@docdigitizer/mcp-server"
