@@ -6,7 +6,7 @@ sdk:
   name: docdigitizer
   language: python
   version: "0.2.0"
-  api_version: "1.0.0"
+  api_version: "1.1.0"
   min_python: "3.8"
   package: "docdigitizer"
   repository: "https://github.com/DocDigitizer/dd-v3-integrations"

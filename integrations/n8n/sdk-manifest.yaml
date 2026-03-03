@@ -2,7 +2,7 @@ sdk:
   name: n8n-nodes-docdigitizer
   language: typescript
   version: "0.2.0"
-  api_version: "1.0.0"
+  api_version: "1.1.0"
   type: integration
   framework: n8n
 

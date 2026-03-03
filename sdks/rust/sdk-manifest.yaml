@@ -6,7 +6,7 @@ sdk:
   name: docdigitizer
   language: rust
   version: "0.2.0"
-  api_version: "1.0.0"
+  api_version: "1.1.0"
   min_rust: "1.85"
   package: "docdigitizer"
   repository: "https://github.com/DocDigitizer/dd-v3-integrations"
