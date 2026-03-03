@@ -84,7 +84,7 @@ describe("ApiClient", () => {
       expect(result.output?.extractions[0].documentType).toBe("Invoice");
 
       const call = vi.mocked(fetch).mock.calls[0];
-      expect(call[0]).toBe("https://api.test.com/");
+      expect(call[0]).toBe("https://api.test.com/extract");
       expect(call[1]?.method).toBe("POST");
       expect((call[1]?.headers as Record<string, string>)["X-API-Key"]).toBe(
         "test-key-123"

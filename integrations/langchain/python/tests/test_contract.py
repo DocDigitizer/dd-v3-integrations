@@ -45,7 +45,7 @@ class TestContract:
             )
 
     def test_manifest_api_version(self, manifest):
-        assert manifest["sdk"]["api_version"] == "1.0.0"
+        assert manifest["sdk"]["api_version"] == "1.1.0"
 
     def test_manifest_type_is_integration(self, manifest):
         assert manifest["sdk"]["type"] == "integration"

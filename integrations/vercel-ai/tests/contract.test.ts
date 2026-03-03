@@ -54,7 +54,7 @@ describe("Contract Tests", () => {
   });
 
   it("manifest api_version is correct", () => {
-    expect(manifest.sdk.api_version).toBe("1.0.0");
+    expect(manifest.sdk.api_version).toBe("1.1.0");
   });
 
   it("manifest type is integration", () => {
