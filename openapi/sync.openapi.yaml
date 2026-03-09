@@ -31,10 +31,8 @@ info:
     url: https://www.docdigitizer.com/legal-center/terms-of-use/
 
 servers:
-  - url: https://api.docdigitizer.com/v3/docingester
-    description: Production server (v0.2.0+)
   - url: https://apix.docdigitizer.com/sync
-    description: Legacy server (DEPRECATED — will be removed in a future release)
+    description: Production server
 
 security:
   - ApiKeyAuth: []
@@ -83,7 +81,6 @@ paths:
                 type: string
                 example: "Service unavailable"
 
-  /extract:
     post:
       operationId: processDocument
       summary: Process a PDF document
@@ -112,9 +109,18 @@ paths:
         3. **Classification**: AI-powered document type detection
         4. **Extraction**: Field extraction based on document type schema
 
+        ## Request Headers
+
+        | Header | Description | Required |
+        |--------|-------------|----------|
+        | X-API-Key | API key for authentication | Yes |
+        | X-DD-Pipeline | Pipeline identifier to use | No (uses default) |
+        | X-DD-LogLevel | Response detail level: minimal, medium, full | No |
+
         ## Response Headers
         The response includes timing headers for performance monitoring:
         - `X-DD-TraceId`: Unique request identifier for support
+        - `X-DD-DocumentId`: System-generated document UUID
         - `X-DD-NumberPages`: Number of pages in the document
         - `X-DD-Timer-*`: Processing time breakdown in milliseconds
       tags:
@@ -127,8 +133,6 @@ paths:
               type: object
               required:
                 - files
-                - id
-                - contextID
               properties:
                 files:
                   type: string
@@ -136,20 +140,6 @@ paths:
                   description: |
                     The PDF document to process. Must be a valid PDF file with .pdf extension.
                     Maximum file size depends on your subscription plan.
-                id:
-                  type: string
-                  format: uuid
-                  description: |
-                    Unique document identifier (UUID format). Use this to track the document
-                    in your system and correlate with extraction results.
-                  example: "550e8400-e29b-41d4-a716-446655440000"
-                contextID:
-                  type: string
-                  format: uuid
-                  description: |
-                    Context identifier for grouping related documents (UUID format).
-                    Use this to group multiple documents from the same batch, customer, or workflow.
-                  example: "7c9e6679-7425-40de-944b-e07fc1f90ae7"
                 requestToken:
                   type: string
                   description: |
@@ -167,14 +157,10 @@ paths:
                 summary: Basic document upload
                 value:
                   files: "(binary PDF data)"
-                  id: "550e8400-e29b-41d4-a716-446655440000"
-                  contextID: "7c9e6679-7425-40de-944b-e07fc1f90ae7"
               withPipeline:
                 summary: Upload with specific pipeline
                 value:
                   files: "(binary PDF data)"
-                  id: "550e8400-e29b-41d4-a716-446655440000"
-                  contextID: "7c9e6679-7425-40de-944b-e07fc1f90ae7"
                   pipelineIdentifier: "MainPipelineWithOCR"
       responses:
         '200':
@@ -185,6 +171,12 @@ paths:
               schema:
                 type: string
                 example: "ABC1234"
+            X-DD-DocumentId:
+              description: System-generated document identifier (UUID)
+              schema:
+                type: string
+                format: uuid
+                example: "550e8400-e29b-41d4-a716-446655440000"
             X-DD-NumberPages:
               description: Number of pages in the processed document
               schema:
@@ -203,18 +195,17 @@ paths:
                 invoiceSuccess:
                   summary: Successful invoice extraction
                   value:
-                    StateText: "COMPLETED"
-                    TraceId: "ABC1234"
-                    Pipeline: "MainPipelineWithOCR"
-                    NumberPages: 2
-                    Output:
+                    stateText: "COMPLETED"
+                    traceId: "ABC1234"
+                    pipeline: "MainPipelineWithOCR"
+                    numberPages: 2
+                    DocumentId: "550e8400-e29b-41d4-a716-446655440000"
+                    output:
                       extractions:
-                        - documentType: "Invoice"
+                        - docType: "Invoice"
                           confidence: 0.95
-                          countryCode: "PT"
-                          pageRange:
-                            start: 1
-                            end: 2
+                          country: "PT"
+                          pages: [1, 2]
                           extraction:
                             invoiceNumber: "INV-2024-001"
                             invoiceDate: "2024-01-15"
@@ -231,15 +222,12 @@ paths:
                                 quantity: 1
                                 unitPrice: 250.00
                                 total: 250.00
-                    Timers:
+                    timers:
                       DocIngester:
-                        total: 2345.67
+                        _total: 2345.67
                         ForwardRequest: 2300.00
                         DocWorker:
-                          total: 2250.00
-                          OCR: 1200.00
-                          Classification: 450.00
-                          Extraction: 600.00
+                          _total: 2250.00
         '400':
           description: Invalid request - missing parameters or invalid file format
           content:
@@ -250,21 +238,25 @@ paths:
                 invalidPdf:
                   summary: Invalid PDF file
                   value:
-                    StateText: "ERROR"
-                    TraceId: "XYZ7890"
-                    Timers:
-                      DocIngester_Total: 45.23
-                    Messages:
+                    stateText: "ERROR"
+                    traceId: "XYZ7890"
+                    DocumentId: "550e8400-e29b-41d4-a716-446655440000"
+                    timers:
+                      DocIngester:
+                        _total: 15.23
+                    messages:
                       - "File must be a PDF document"
-                missingId:
-                  summary: Missing document ID
+                missingFile:
+                  summary: No file provided
                   value:
-                    StateText: "ERROR"
-                    TraceId: "DEF4567"
-                    Timers:
-                      DocIngester_Total: 12.45
-                    Messages:
-                      - "Invalid or missing 'id' parameter"
+                    stateText: "ERROR"
+                    traceId: "DEF4567"
+                    DocumentId: "550e8400-e29b-41d4-a716-446655440000"
+                    timers:
+                      DocIngester:
+                        _total: 12.45
+                    messages:
+                      - "No file uploaded"
         '401':
           description: Unauthorized - invalid or missing API key
           content:
@@ -275,11 +267,12 @@ paths:
                 unauthorized:
                   summary: Invalid API key
                   value:
-                    StateText: "ERROR"
-                    TraceId: "UNA1234"
-                    Timers:
-                      DocIngester_Total: 5.12
-                    Messages:
+                    stateText: "ERROR"
+                    traceId: "UNA1234"
+                    timers:
+                      DocIngester:
+                        _total: 5.12
+                    messages:
                       - "Invalid or missing API key"
         '500':
           description: Server error during processing
@@ -291,11 +284,13 @@ paths:
                 processingError:
                   summary: Processing failed
                   value:
-                    StateText: "ERROR"
-                    TraceId: "ERR9876"
-                    Timers:
-                      DocIngester_Total: 5234.56
-                    Messages:
+                    stateText: "ERROR"
+                    traceId: "ERR9876"
+                    DocumentId: "550e8400-e29b-41d4-a716-446655440000"
+                    timers:
+                      DocIngester:
+                        _total: 5234.56
+                    messages:
                       - "DocWorker returned error: 500"
                       - "Processing failed. Check server logs for details."
         '503':
@@ -308,11 +303,12 @@ paths:
                 serviceUnavailable:
                   summary: Downstream service unavailable
                   value:
-                    StateText: "ERROR"
-                    TraceId: "SVC1234"
-                    Timers:
-                      DocIngester_Total: 30012.34
-                    Messages:
+                    stateText: "ERROR"
+                    traceId: "SVC1234"
+                    timers:
+                      DocIngester:
+                        _total: 30012.34
+                    messages:
                       - "Cannot connect to DocWorker: Connection refused"
         '504':
           description: Gateway timeout - processing took too long
@@ -324,11 +320,12 @@ paths:
                 timeout:
                   summary: Processing timeout
                   value:
-                    StateText: "ERROR"
-                    TraceId: "TMO1234"
-                    Timers:
-                      DocIngester_Total: 300000.00
-                    Messages:
+                    stateText: "ERROR"
+                    traceId: "TMO1234"
+                    timers:
+                      DocIngester:
+                        _total: 300000.00
+                    messages:
                       - "DocWorker request timed out"
 
 components:
@@ -351,58 +348,69 @@ components:
         Response returned when a document is processed successfully. Contains the processing
         state, extracted data, timing metrics, and any messages.
       required:
-        - StateText
-        - TraceId
+        - stateText
+        - traceId
       properties:
-        StateText:
+        stateText:
           type: string
           enum:
             - COMPLETED
-            - PROCESSING
             - ERROR
           description: |
             Processing state indicator:
             - **COMPLETED**: Processing finished successfully with extraction results
-            - **PROCESSING**: Document accepted and queued (async mode)
-            - **ERROR**: Processing failed, check Messages for details
+            - **ERROR**: Processing failed, check messages for details
           example: "COMPLETED"
-        TraceId:
+        traceId:
           type: string
           description: |
             Unique 7-character alphanumeric trace identifier for this request.
             Use this when contacting support or correlating logs.
           example: "ABC1234"
-        Pipeline:
+        DocumentId:
+          type: string
+          format: uuid
+          description: System-generated document identifier
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        pipeline:
           type: string
           description: Name of the processing pipeline that was executed
           example: "MainPipelineWithOCR"
-        NumberPages:
+        numberPages:
           type: integer
           description: Total number of pages in the processed document
           example: 3
-        Output:
+        output:
           $ref: '#/components/schemas/ProcessingOutput'
-        PluginExecutions:
+        plugin_executions:
           type: object
           description: |
             Detailed execution results from each pipeline step. Only included when
             X-DD-LogLevel header is set to 'full' or 'medium'.
           additionalProperties: true
-        Timers:
+        timers:
           type: object
           description: |
-            Hierarchical performance timing metrics in milliseconds. Structure depends
-            on X-DD-LogLevel header value (minimal/medium/full).
+            Hierarchical performance timing metrics in milliseconds.
+            Detail level depends on X-DD-LogLevel header value.
           additionalProperties: true
           example:
             DocIngester:
-              total: 2345.67
+              _total: 2345.67
               ForwardRequest: 2300.00
-        Errors:
-          type: object
-          description: Detailed error information when StateText is ERROR
-          additionalProperties: true
-        Messages:
+        errors:
+          type: array
+          description: Pipeline error details when stateText is ERROR
+          items:
+            type: object
+            properties:
+              step:
+                type: string
+              message:
+                type: string
+              isFatal:
+                type: boolean
+        messages:
           type: array
           description: Status or error messages providing additional context
           items:
@@ -427,9 +435,9 @@ components:
       description: |
         Extracted data from a single document or document segment within the PDF.
         Each extraction includes the classified document type, confidence score,
-        page range, and the actual extracted field values.
+        page numbers, and the actual extracted field values.
       properties:
-        documentType:
+        docType:
           type: string
           description: |
             Classified document type. Common values include: Invoice, Receipt,
@@ -444,24 +452,21 @@ components:
             Classification confidence score from 0.0 to 1.0. Higher values indicate
             more confident classification. Scores above 0.8 are generally reliable.
           example: 0.95
-        countryCode:
+        country:
           type: string
           description: |
             Detected country code (ISO 3166-1 alpha-2). Used to apply country-specific
             extraction schemas and formatting rules.
           example: "PT"
-        pageRange:
-          type: object
-          description: Page range within the PDF where this document was found
-          properties:
-            start:
-              type: integer
-              description: Starting page number (1-indexed)
-              example: 1
-            end:
-              type: integer
-              description: Ending page number (1-indexed)
-              example: 2
+        pages:
+          type: array
+          items:
+            type: integer
+          description: |
+            1-based page numbers within the PDF where this document was found.
+            For a single-page invoice on page 1, this would be [1].
+            For a multi-page document spanning pages 2-4, this would be [2, 3, 4].
+          example: [1, 2]
         extraction:
           type: object
           description: |
@@ -479,32 +484,36 @@ components:
       type: object
       description: |
         Error response returned when document processing fails. Always includes
-        StateText as "ERROR", a TraceId for support, and Messages describing the error.
+        stateText as "ERROR", a traceId for support, and messages describing the error.
       required:
-        - StateText
-        - TraceId
-        - Messages
+        - stateText
+        - traceId
+        - messages
       properties:
-        StateText:
+        stateText:
           type: string
           enum:
             - ERROR
           description: Always "ERROR" for error responses
           example: "ERROR"
-        TraceId:
+        traceId:
           type: string
           description: |
             Unique trace identifier for this request. Provide this when contacting
             support to help diagnose issues.
           example: "XYZ7890"
-        Timers:
+        DocumentId:
+          type: string
+          format: uuid
+          description: System-generated document identifier
+        timers:
           type: object
           description: Processing time metrics up until the error occurred (milliseconds)
-          additionalProperties:
-            type: number
+          additionalProperties: true
           example:
-            DocIngester_Total: 45.23
-        Messages:
+            DocIngester:
+              _total: 45.23
+        messages:
           type: array
           description: |
             Array of error messages describing what went wrong. May include
