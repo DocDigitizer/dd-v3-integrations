@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: pip install pyyaml
 
+      - name: Configure git for private repos
+        run: git config --global url."https://${{ secrets.GH_PAT }}@github.com/".insteadOf "https://github.com/"
+
       - name: Check for spec drift
         run: python scripts/sync_openapi.py --check
 
